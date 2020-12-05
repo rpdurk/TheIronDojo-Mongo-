@@ -1,7 +1,7 @@
 const { Schema, model } =require('mongoose');
 
 const ExerciseSchema = new Schema({
-    exercise: {
+    exerciseName: {
         type:String,
         required: [true, 'Exercise name is required'],
     },
@@ -21,6 +21,7 @@ const ExerciseSchema = new Schema({
         required: true,
     },
     // if time, add rest, time, or other options.
+    user_Id: [{type: Schema.Types.ObjectId, ref: 'User._Id'}],
 })
 
 const Exercise = model('Exercise', ExerciseSchema);
