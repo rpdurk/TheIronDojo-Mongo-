@@ -1,7 +1,7 @@
 const { Schema, model } =require('mongoose');
 
 const WorkoutSchema = new Schema({
-    name: {
+    workoutName: {
         type: string,
         required: [true, 'Workout name is required'],
     },
