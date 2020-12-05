@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const exerciseRoutes = require('./apiRoutes/exerciseRoutes');
-const workoutRoutes = require('./apiRoutes/workoutRoutes');
-const authRoutes = require('./authRoutes');
-const signInMiddleware = require('../middlewares/signInMiddleware');
+const router = require("express").Router();
+// const exerciseRoutes = require('./apiRoutes/exerciseRoutes');
+// const workoutRoutes = require('./apiRoutes/workoutRoutes');
+const authRoutes = require("./authRoutes");
+const signInMiddleware = require("../middlewares/signInMiddleware");
 // const userSignUp = require();
 
 // /api/users
@@ -13,10 +13,10 @@ const signInMiddleware = require('../middlewares/signInMiddleware');
 // router.use('/signup', express.static('client/build'));
 
 // -> /api/exercise
-router.use('/api/exercise', exerciseRoutes);
+// router.use('/api/exercise', exerciseRoutes);
 
 // -> /api/workout
-router.use('/api/workout', workoutRoutes);
-router.use('/auth', authRoutes);
+// router.use('/api/workout', workoutRoutes);
+router.use("/auth", authRoutes);
 
 module.exports = router;
