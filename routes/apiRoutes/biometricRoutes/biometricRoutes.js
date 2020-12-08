@@ -1,26 +1,19 @@
 const router = require('express').Router();
-const {
-  returnUsersHeightByUserId,
-  returnUsersWeightByUserId,
-  returnUsersWeightDateByUserId,
-  addUserBiometrics,
-} = require('../../controllers/biometricController');
-// GET Routes
-// GET -> /:userId              -> Returns height by User Id
-// GET -> /:userId       -> Returns weight by User Id
-// GET -> /:userId      -> Returns date weight was measured by User Id
-// Post -> /add      -> Adds Biometric data to database
 
-// Get height by User ID
-router.get('/:userId', returnUsersHeightByUserId);
+const biometricController = require('../../../controllers/biometricController');
 
-// Get weight by User ID
-router.get('/:userId', returnUsersWeightByUserId);
+// const authMiddleware = require('../../../middlewares/authorizationMiddleware');
+// router.use(authMiddleware);
 
-// Get date for weights by User ID
-router.get('/:userId', returnUsersWeightDateByUserId);
-
-// Add an biometric data
-router.post('/add', addUserBiometrics);
+// at api/biometric/:id
+router.route('/:id')
+  // creates an exercise
+  .post(biometricController.createBiometric)
+  // Gets all biometrics by user Id
+  .get(biometricController.getAllBiometricByUserId)
+  // Updates a biometric by biometric Id
+  .patch(biometricController.updateBiometricById)
+  // Deletes a biometric by biometric Id
+  .delete(biometricController.deleteBiometric)
 
 module.exports = router;
