@@ -1,14 +1,39 @@
+const mongoose = require("mongoose");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const JwtStrategy = require("passport-jwt").Strategy;
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const User = require("../model/UserSchema");
+const GoogleUser = mongoose.model("users");
 require("dotenv").config();
-// dotenv.config();
-// Done is similar
-// takes 2 parameters
-// the 1st is an error or an error object
-// the 2nd is the user you found or null if you dont find one
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+const googleStrategy = new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback",
+    // proxy: true,
+  },
+  async (request, accessToken, refreshToken, profile, done) => {
+    const existingUser = await GoogleUser.findOne({ googleId: profile.id });
+    if (existingUser) {
+      console.log(`${existingUser} Already Exists`);
+      return done(null, existingUser);
+    }
+    GoogleUser.create({ googleId: profile.id }, function (err, user) {
+      console.log(user);
+      return done(err, user);
+    });
+  }
+);
 const localStrategy = new LocalStrategy(async (username, password, done) => {
   //  Find a user with some given criteria
   //   if an error happened when you tried to find that user
@@ -67,10 +92,11 @@ const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
 // run the localStrategy function that we gave to you
 passport.use(localStrategy);
 passport.use(jwtStrategy);
+passport.use(googleStrategy);
 
 // const passport = require("passport");
 // const mongoose = require("mongoose");
-// // const GoogleStrategy = require("passport-google-oauth2").Strategy;
+// const GoogleStrategy = require("passport-google-oauth2").Strategy;
 // const LocalStrategy = require("passport-local").Strategy;
 // const JwtStrategy = require("passport-jwt").Strategy;
 // const ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -86,27 +112,27 @@ passport.use(jwtStrategy);
 // //   });
 // // });
 
-// // const googleStrategy = new GoogleStrategy(
-// //   {
-// //     clientID: keys.googleClientId,
-// //     clientSecret: keys.googleClientSecret,
-// //     callbackURL: "/auth/google/callback",
-// //     proxy: true,
-// //   },
-// //   async (accessToken, refreshToken, profile, done) => {
-// //     try {
-// //       const existingUser = await db.User.findOne({ googleId: profile.id });
-// //       if (existingUser) {
-// //         done(null, existingUser);
-// //       } else {
-// //         const user = await db.User.create({ googleId: profile.id });
-// //         done(null, user);
-// //       }
-// //     } catch (e) {
-// //       done(e);
-// //     }
-// //   }
-// // );
+// const googleStrategy = new GoogleStrategy(
+//   {
+//     clientID: keys.googleClientId,
+//     clientSecret: keys.googleClientSecret,
+//     callbackURL: "/auth/google/callback",
+//     proxy: true,
+//   },
+//   async (accessToken, refreshToken, profile, done) => {
+//     try {
+//       const existingUser = await db.User.findOne({ googleId: profile.id });
+//       if (existingUser) {
+//         done(null, existingUser);
+//       } else {
+//         const user = await db.User.create({ googleId: profile.id });
+//         done(null, user);
+//       }
+//     } catch (e) {
+//       done(e);
+//     }
+//   }
+// );
 
 // // const googleStrategy = new GoogleStrategy(
 // //   {
