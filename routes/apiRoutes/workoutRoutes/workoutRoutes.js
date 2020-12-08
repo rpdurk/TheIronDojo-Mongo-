@@ -1,11 +1,11 @@
 const router = require('express').Router();
 
-const workoutController = require('../../controllers/workoutController');
+const workoutController = require('../../../controllers/workoutController');
 
 // const authMiddleware = require('../../../middlewares/authorizationMiddleware');
 // router.use(authMiddleware);
 
-// at api/users/:id
+// at api/workout/:id
 router.route('/:id')
   // creates a workout 
   .post(workoutController.createWorkouts)
@@ -17,4 +17,5 @@ router.route('/:id')
   .patch(workoutController.updateWorkoutById)
   // Deletes a workout by workout Id
   .delete(workoutController.deleteWorkout)
+  
 module.exports = router;
