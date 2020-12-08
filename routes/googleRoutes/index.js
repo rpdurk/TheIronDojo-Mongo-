@@ -6,13 +6,11 @@ module.exports = (app) => {
     passport.authenticate("google", { scope: ["email", "profile"] })
   );
 
-  app.get("/auth/google/callback", passport.authenticate("google"), {
-    successRedirect: "/",
-    failureRedirect: "/fail",
-  });
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google", {
+      successRedirect: "/",
+      failureRedirect: "/fail",
+    })
+  );
 };
-
-// (req, res) => {
-//   const token = req.user.token;
-//   res.redirect("http://localhost:3000?token=" + token);
-// }
