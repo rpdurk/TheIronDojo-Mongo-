@@ -22,17 +22,40 @@ module.exports = {
       res.status(401).json(e);
     }
   },
-  // getAllExerciseByWorkoutId: async (req, res) => {
-  //   try {
-  //     res.json(await db.Exercise.findById(req.params.id))
-  //   }
-  // }
-
-  // returnAllExerciseByUserId,
-  // returnAllExerciseByWorkoutId,
-  // returnAnExerciseById,
-  // returnAllExercisesByName,
-  // addExercise,
-  // deleteExercise,
-  // checkExercises,
+  getAllExercisesByUserId: async (req, res) => {
+    const id = req.params.id;
+    try {
+      res.json(await db.Exercise.find({id}));
+    }catch (e) {
+      console.log('L: 30 exerciseController', e);
+      res.status(401).json(e);
+    }
+  },
+  updateExercisesByExerciseId: async (req, res) => {
+    try {
+      const { exerciseName, sets, repetitions, weight, date } = req.body;
+      res.json(await db.Exercise.findByIdAndUpdate(req.params.id, {
+        exerciseName,
+        sets,
+        repetitions,
+        weight,
+        date,
+        user_Id: req.user._id,
+      }, {
+        new: true,
+      }));
+    }catch (e) {
+      console.log('L: 48 exerciseController', e);
+      res.status(401).json(e);
+    }
+  },
+  deleteExercise: async (req, res) => {
+    try {
+      console.log('Exercise Deleted Successfully');
+      res.json(await db.Exercise.findByIdAndDelete(req.params.id));
+    } catch (e) {
+      console.log('L: 60 exerciseController', e);
+      res.status(401).json(e);
+    }
+  }
 };
