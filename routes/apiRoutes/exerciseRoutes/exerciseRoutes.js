@@ -1,14 +1,24 @@
 const router = require('express').Router();
-const authMiddleware = require('../../middlewares/authorizationMiddleware');
-const {
-  returnAllExerciseByUserId,
-  returnAllExerciseByWorkoutId,
-  returnAnExerciseById,
-  returnAllExercisesByName,
-  addExercise,
-  deleteExercise,
-  checkExercises,
-} = require('../../controllers/exerciseController');
+
+const workoutController = require('../../controllers/exerciseController');
+
+// const authMiddleware = require('../../../middlewares/authorizationMiddleware');
+// router.use(authMiddleware);
+
+// at api/users/exercise/:id
+router.route('/:id')
+  // creates a workout 
+  .post(workoutController.createWorkouts)
+  // Gets a all workouts
+  .get(workoutController.getAllWorkouts)
+  // Gets all workouts by user Id
+  .get(workoutController.getAllWorkoutsByUserId)
+  // Updates a workout by workout Id
+  .patch(workoutController.updateWorkoutById)
+  // Deletes a workout by workout Id
+  .delete(workoutController.deleteWorkout)
+module.exports = router;
+
 // /api/exercise ->
 // GET Routes
 // GET -> /:userId          -> Returns All by User
