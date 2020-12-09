@@ -38,6 +38,17 @@ const userSlice = createSlice({
       ...state,
       credentialError: false,
     }),
+    signOutUser: (state, action) => ({
+      users: [],
+      selectedUser: {
+        id: '',
+        username: '',
+      },
+      curUsername: null,
+      curUserId: null,
+      moreState: false,
+      credentialError: false,
+    }),
   },
 });
 
@@ -48,6 +59,7 @@ export const {
   setCurrentUser,
   invalidCredentials,
   validCredentials,
+  signOutUser,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

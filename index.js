@@ -1,5 +1,10 @@
+const express = require("express");
+const routes = require("./routes");
+const path = require("path");
+
 // Dotenv needs to initialized at the far most start of the application.
 require("dotenv").config();
+// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 require("./model/googleUser");
 const { connectDB } = require("./config/connection");
 const express = require("express");
@@ -51,5 +56,5 @@ app.use(routes);
 require("./routes/googleRoutes")(app);
 
 app.listen(PORT, () => {
-  console.log(`Server started listening on PORT ${PORT}`);
+  console.log(`Server started listening on PORT http://localhost:${PORT}`);
 });
