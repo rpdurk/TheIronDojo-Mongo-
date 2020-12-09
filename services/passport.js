@@ -1,10 +1,11 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-const User = require("../model/UserSchema");
-require("dotenv").config();
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const User = require('../model/UserSchema');
+// require("dotenv").config();
 // dotenv.config();
+
 // Done is similar
 // takes 2 parameters
 // the 1st is an error or an error object
@@ -27,24 +28,21 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
   if (user) {
     const doesPasswordMatch = await user.comparePassword(password);
     if (doesPasswordMatch) {
-      console.log(doesPasswordMatch);
       return done(null, user);
     }
-    console.log("happening");
+    console.log('happening');
     return done(null, false);
   } else {
-    console.log("happening");
+    console.log('happening');
     return done(null, false);
   }
   //   if no user was found call done like return done(null, false);
 });
-console.log(process.env.MONGO_SECRET);
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: process.env.MONGO_SECRET,
 };
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
-  console.log(jwtToken);
   // { sub: idOfTheUser, iat: timeThatThisTokenWasCreated }
   let user;
   try {
