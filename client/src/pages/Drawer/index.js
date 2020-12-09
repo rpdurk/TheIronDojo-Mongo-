@@ -1,36 +1,36 @@
-import React from "react";
-import clsx from "clsx";
-import { useHistory, withRouter } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setViewerToken } from "../Viewer";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import HomeIcon from "@material-ui/icons/Home";
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
-import SettingsIcon from "@material-ui/icons/Settings";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import Banner from "../common/components/Banner";
-
+import React from 'react';
+import clsx from 'clsx';
+import { useHistory, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setViewerToken } from '../Viewer';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import SettingsIcon from '@material-ui/icons/Settings';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Banner from '../common/components/Banner';
+import { signOutUser } from '../User/UserReducer';
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
 
   banner: {
@@ -38,10 +38,10 @@ const useStyles = makeStyles(theme => ({
   },
 
   appBar: {
-    color: "black",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    transition: theme.transitions.create(["margin", "width"], {
+    color: 'black',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   //   // marginRight: theme.spacing(2),
   // },
   hide: {
-    display: "none",
+    display: 'none',
   },
   drawer: {
     width: drawerWidth,
@@ -69,47 +69,49 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   drawerHeader: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
 
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(7),
-    transition: theme.transitions.create("margin", {
+    transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
   },
   contentShift: {
-    transition: theme.transitions.create("margin", {
+    transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
   },
   spacer: {
-    width: "84px",
+    width: '84px',
   },
 }));
 
-const PersistentDrawerLeft = props => {
+const PersistentDrawerLeft = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { token } = useSelector(state => state.viewer);
+  const { token } = useSelector((state) => state.viewer);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     dispatch(setViewerToken(null));
-    history.push("/");
+    dispatch(signOutUser());
+    history.push('/');
   };
 
   const handleDrawerOpen = () => {
@@ -122,19 +124,19 @@ const PersistentDrawerLeft = props => {
 
   const menuItems = [
     {
-      text: "Dashboard",
+      text: 'Dashboard',
       icon: <HomeIcon />,
-      onClick: () => history.push("/dashboard"),
+      onClick: () => history.push('/dashboard'),
     },
     {
-      text: "Create Workout",
+      text: 'Create Workout',
       icon: <AddBoxIcon />,
-      onClick: () => history.push("/create"),
+      onClick: () => history.push('/create'),
     },
     {
-      text: "Log Workout",
+      text: 'Log Workout',
       icon: <FitnessCenterIcon />,
-      onClick: () => history.push("/log"),
+      onClick: () => history.push('/log'),
     },
     // {
     //   text: "Progress",
@@ -149,7 +151,7 @@ const PersistentDrawerLeft = props => {
     //   onClick: () => history.push("/account"),
     // },
     {
-      text: "Sign Out",
+      text: 'Sign Out',
       icon: <ExitToAppIcon />,
       onClick: handleSignOut,
     },
@@ -158,17 +160,17 @@ const PersistentDrawerLeft = props => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        position='fixed'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
@@ -179,8 +181,8 @@ const PersistentDrawerLeft = props => {
       </AppBar>
       <Drawer
         className={classes.drawer}
-        variant="persistent"
-        anchor="left"
+        variant='persistent'
+        anchor='left'
         open={open}
         classes={{
           paper: classes.drawerPaper,
@@ -188,7 +190,7 @@ const PersistentDrawerLeft = props => {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
+            {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
             ) : (
               <ChevronRightIcon />
@@ -197,7 +199,7 @@ const PersistentDrawerLeft = props => {
         </div>
         <Divider />
         <List>
-          {menuItems.map(item => {
+          {menuItems.map((item) => {
             const { text, icon, onClick } = item;
             return (
               <ListItem button key={text} onClick={onClick}>
@@ -209,7 +211,7 @@ const PersistentDrawerLeft = props => {
         </List>
         <Divider />
         <List>
-          {accountItems.map(item => {
+          {accountItems.map((item) => {
             const { text, icon, onClick } = item;
             return (
               <ListItem button key={text} onClick={onClick}>
