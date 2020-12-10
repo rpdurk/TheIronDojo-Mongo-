@@ -4,9 +4,10 @@ const router = require("express").Router();
 const authRoutes = require("./authRoutes");
 const signInMiddleware = require("../middlewares/signInMiddleware");
 // const userSignUp = require();
+const apiRoutes = require("./apiRoutes");
 
 // /api/users
-// router.use('/api/users/');
+router.use('/api', apiRoutes);
 
 // ignore singInMiddleware for now
 

@@ -2,8 +2,8 @@ const router = require('express').Router();
 
 const workoutController = require('../../../controllers/workoutController');
 
-// const authMiddleware = require('../../../middlewares/authorizationMiddleware');
-// router.use(authMiddleware);
+const authMiddleware = require('../../../middlewares/authorizationMiddleware');
+router.use(authMiddleware);
 
 // at api/workout/:id
 router.route('/:id')
