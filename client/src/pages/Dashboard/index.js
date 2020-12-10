@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -13,12 +14,13 @@ import {
   FormControl,
 } from "@material-ui/core/";
 import { setUserId } from "../User/UserReducer";
+import { setViewerToken } from "../Viewer/ViewerReducer";
 import { useUtils } from "../common";
 import ProgressChart from "../common/components/Charts/ProgressChart";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { current } from "@reduxjs/toolkit";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -54,10 +56,21 @@ const Dashboard = () => {
   const classes = useStyles(); // -> Material UI Styles
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight); // -> Material UI
   const { dispatch, history } = useUtils();
+  const location = useLocation();
+  const incomingUserId = location.pathname.split("/")[2];
+  const incomingUserToken = location.pathname.split("/")[3];
+  if (incomingUserId) {
+    dispatch(setUserId(incomingUserId));
+    localStorage.setItem("userId", incomingUserId);
+  }
+  if (incomingUserToken) {
+    // dispatch(setViewerToken(incomingUserToken));
+    localStorage.setItem("token", incomingUserToken);
+  }
 
   //TODO: Check Token validity.
   // Get or Set userId
-  let userId = useSelector(state => state.user.curUserId);
+  let userId = useSelector((state) => state.user.curUserId);
 
   if (userId === null) {
     userId = localStorage.getItem("userId");
@@ -117,7 +130,7 @@ const Dashboard = () => {
     });
 
     let tempArray = [];
-    sorted.forEach(el => {
+    sorted.forEach((el) => {
       tempArray.push({ date: el[0], weight: el[1] });
     });
     setTableData(tempArray);
@@ -135,7 +148,7 @@ const Dashboard = () => {
         setAllExercises(data);
 
         // Get Names and IDs from workouts
-        const temp = data.map(exercise => exercise.exerciseName);
+        const temp = data.map((exercise) => exercise.exerciseName);
         // const resWorkoutIds = data.map((workout) => workout.id);
 
         let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
@@ -203,24 +216,24 @@ const Dashboard = () => {
           <Paper className={classes.paper}>
             <h4>Lifts This Week</h4>
             {/* <h1>{weeklyLifts}</h1> */}
-             {/* {weeklyVolume === null ? (  */}
-              {/* // <LinearProgress />
+        {/* {weeklyVolume === null ? (  */}
+        {/* // <LinearProgress />
             // ) : (
               // <h1>{weeklyLifts} lbs</h1>
             // )} */}
-          {/* </Paper> */}
+        {/* </Paper> */}
         {/* </Grid> */}
         {/* Weekly total exercises */}
         {/* <Grid item xs={4}>
           <Paper className={classes.paper}>
             <h4>Weekly Exercises</h4> */}
-            {/* <h1>{weeklyExercises}</h1> */}
-            {/* {weeklyVolume === null ? ( */}
-               {/* <LinearProgress /> */}
-             {/* ) : (
+        {/* <h1>{weeklyExercises}</h1> */}
+        {/* {weeklyVolume === null ? ( */}
+        {/* <LinearProgress /> */}
+        {/* ) : (
                <h1>{weeklyExercises} lbs</h1>
              )} */}
-          {/* </Paper>
+        {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
         <Grid item xs={12}>
@@ -234,10 +247,10 @@ const Dashboard = () => {
               <Autocomplete
                 id="exerciseChart"
                 options={allExercisesByName}
-                getOptionLabel={option => option}
+                getOptionLabel={(option) => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
                 style={{ width: 400 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Choose your Exercise"
