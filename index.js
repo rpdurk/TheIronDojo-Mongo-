@@ -1,8 +1,3 @@
-const express = require("express");
-const routes = require("./routes");
-const path = require("path");
-
-// Dotenv needs to initialized at the far most start of the application.
 require("dotenv").config();
 // require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 require("./model/googleUser");

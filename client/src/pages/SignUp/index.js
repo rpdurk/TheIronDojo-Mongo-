@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  google: {
+    margin: theme.spacing(0, 0, 2),
+  },
 }));
 
 export default function SignUp() {
@@ -122,7 +125,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={classes.google}
             href="http://localhost:3001/auth/google"
           >
             Sign Up With Google
@@ -130,7 +133,7 @@ export default function SignUp() {
           <Grid container>
             <Grid item>
               <Link href="/" variant="body2">
-                Already have an account? Sign in
+                Already have an account? Sign In
               </Link>
             </Grid>
           </Grid>

@@ -25,7 +25,8 @@ const googleStrategy = new GoogleStrategy(
   async (request, accessToken, refreshToken, profile, done) => {
     const existingUser = await GoogleUser.findOne({ googleId: profile.id });
     if (existingUser) {
-      console.log(`${existingUser} Already Exists`);
+      // console.log(`${existingUser} GoogleUser Exists`);
+      // console.log("refreshToken:", refreshToken);
       return done(null, existingUser);
     }
     GoogleUser.create({ googleId: profile.id }, function (err, user) {
