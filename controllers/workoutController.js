@@ -40,7 +40,7 @@ module.exports = {
   },
   updateWorkoutById: async (req, res) => {
     try {
-      const { workoutId, workoutName, exercise, date } = req.body;
+      const { workoutName, exercise, date } = req.body;
       res.json(await db.Workout.findByIdAndUpdate(req.params.id, {
         workoutName,
         exercise,

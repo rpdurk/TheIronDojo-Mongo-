@@ -21,6 +21,10 @@ const UserSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    biometrics :[{
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Biometric"
+      }]
     // role: {
     //     type: String,
     //     required: [true, 'You must select a role'],

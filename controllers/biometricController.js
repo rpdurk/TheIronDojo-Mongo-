@@ -1,98 +1,61 @@
-const {
-  getUserHeightByUserID,
-  getUserWeightByUserID,
-  getUserWeightDateByUserID,
-  setUserBiometrics,
-} = require('../model/biometricOrm');
+  const db = require('../model/index');
 
-/**
- * 
-* @param {number} req - req.params.userId
- * @param {object} res - returns an object
- */
-const returnUsersHeightByUserId = async (req, res) => {
-  try {
-    const reObject = await getUserHeightByUserID(req.params.userId);
-    res.json(reObject);
-  } catch (err) {
-    res.json({ success: false, msg: err});
-  }
-};
-
-/**
- * 
-* @param {number} req - req.params.userId
- * @param {object} res - returns an object
- */
-const returnUsersWeightByUserId = async (req, res) => {
-  try {
-    const reObject = await getUserWeightByUserID(req.params.userId);
-    res.json(reObject);
-  } catch (err) {
-    res.json({ success: false, msg: err});
-  }
-};
-
-/**
- * 
-* @param {number} req - req.params.userId
- * @param {object} res - returns an object
- */
-const returnUsersWeightDateByUserId = async (req, res) => {
-  try {
-    const reObject = await getUserWeightDateByUserID(req.params.userId);
-    res.json(reObject);
-  } catch (err) {
-    res.json({ success: false, msg: err});
-  }
-};
-
-const addUserBiometrics = async (req, res) => {
-  //   console.log(`obj`);
-  //   console.log(req.body);
-
-  const reObject = req.body;
-  let empty = false;
-
-  // Array of keys to rest if these exists
-  const keys = [
-    'userId',
-    'height',
-    'weight',
-    'weightDate',
-  ];
-
-  // Check the validity of Object -> Not empty and Length is 10
-  if (
-    Object.keys(reObject).length !== 0 ||
-    Object.keys(reObject).length === 11
-  ) {
-    keys.forEach((el) => {
-      if (typeof reObject[el] === 'undefined') {
-        empty = true;
+  // biometric params = weight, height, date, user_Id
+  
+  module.exports = {
+  
+    createBiometric: async (req, res) => {
+      const { weight, height, date } = req.body;
+      try {
+        const newBiometric = await db.Biometric.create({
+          weight,
+          height,
+          date,
+          user_id: req.user._id,
+        });
+        console.log(newBiometric);
+        req.user.biometrics.push(newBiometric._id);
+        await req.user.save();
+        res.json(newBiometric);
+      } catch (e) {
+        console.log('L:20 biometricController', e);
+        res.status(401).json(e)
       }
-    });
-  } else {
-    empty = true;
-  }
-
-  // Add biometrics to DB if Object is fine.
-  if (!empty) {
-    await setUserBiometrics(req.body);
-    res.json({ success: true });
-  } else {
-    res.json({
-      success: false,
-      msg: 'Object Invalid, missing data or does not exist.',
-    });
-  }
-};
-
-module.exports = {
-  returnUsersHeightByUserId ,
-  returnUsersWeightByUserId,
-  returnUsersWeightDateByUserId,
-  addUserBiometrics,
-};
+    },
+    getAllBiometricByUserId: async (req, res) => {
+      const id = req.params.id;
+      try {
+        res.json(await db.Biometric.find({id}));
+      }catch (e) {
+        console.log('L:29 BiometricController', e);
+        res.status(401).json(e);
+      }
+    },
+    updateBiometricById: async (req, res) => {
+      try {
+        const { weight, height, date } = req.body;
+        res.json(await db.Biometric.findByIdAndUpdate(req.params.id, {
+          weight,
+          height,
+          date,
+          user_id: req.user._id,
+        },{
+          new: true,
+        }));
+      } catch (e) {
+        console.log('L:45 biometricController', e);
+        res.status(401).json(e);
+      }
+    },
+    deleteBiometric: async (req, res) => {
+      try {
+        console.log('User Biometrics Deleted Successfully');
+        res.json(await db.Biometric.findByIdAndDelete(req.params.id));
+      } catch (e) {
+        console.log('L: 54 biometricController', e);
+        res.status(401).json(e);
+      }
+    }
+  };
 
   

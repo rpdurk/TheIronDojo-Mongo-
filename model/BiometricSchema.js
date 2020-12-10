@@ -15,7 +15,10 @@ const BiometricSchema = new Schema({
         type: Date,
         required: true,
     },
-    user_Id: [{type: Schema.Types.ObjectId, ref: 'User._Id'}],
+    user_Id: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
+    },
 })
 
 const Biometric = model('Biometric', BiometricSchema);
