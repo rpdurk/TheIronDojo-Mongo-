@@ -17,6 +17,7 @@
     "ag-grid-react": "^24.0.0",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
+    "http-proxy-middleware": "^1.0.6",
     "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

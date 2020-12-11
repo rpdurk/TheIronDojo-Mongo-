@@ -1,16 +1,17 @@
-// Dotenv needs to initialized at the far most start of the application.
 require("dotenv").config();
-
+// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+require("./model/googleUser");
 const { connectDB } = require("./config/connection");
 const express = require("express");
 const routes = require("./routes");
 const path = require("path");
+const passport = require("passport");
 require("./services/passport");
-// const dotenv = require("dotenv");
-// dotenv.config({ path: ".env" });
 connectDB();
 
 const app = express();
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = process.env.PORT || 3001;
 
@@ -47,6 +48,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
+require("./routes/googleRoutes")(app);
+
 app.listen(PORT, () => {
-  console.log("Server started listening on PORT http://localhost:3001");
+  console.log(`Server started listening on PORT http://localhost:${PORT}`);
 });

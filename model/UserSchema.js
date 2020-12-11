@@ -1,17 +1,17 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const UserSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, "Username is required"],
+      required: [true, 'Username is required'],
       trim: true,
       unique: true,
     },
     password: {
       type: String,
       minlength: 6,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
     },
     firstName: {
       type: String,
@@ -21,6 +21,10 @@ const UserSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    biometrics :[{
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Biometric"
+      }]
     // role: {
     //     type: String,
     //     required: [true, 'You must select a role'],
@@ -58,7 +62,6 @@ UserSchema.method({
     console.log(`I AM ${this.username}`);
   },
   comparePassword: async function (candidatePassword) {
-    console.log("this in compare password", this);
     try {
       return await bcrypt.compare(candidatePassword, this.password);
     } catch (e) {
@@ -67,10 +70,10 @@ UserSchema.method({
   },
 });
 
-UserSchema.pre("save", async function (next) {
-  console.log("I am the this in pre hook", this);
+UserSchema.pre('save', async function (next) {
+  console.log('I am the this in pre hook', this);
   const user = this;
-  if (user.isModified("password")) {
+  if (user.isModified('password')) {
     try {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(user.password, salt);
@@ -81,6 +84,6 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

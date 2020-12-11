@@ -2,8 +2,8 @@ const router = require('express').Router();
 
 const biometricController = require('../../../controllers/biometricController');
 
-// const authMiddleware = require('../../../middlewares/authorizationMiddleware');
-// router.use(authMiddleware);
+const authMiddleware = require('../../../middlewares/authorizationMiddleware');
+router.use(authMiddleware);
 
 // at api/biometric/:id
 router.route('/:id')

@@ -1,4 +1,4 @@
-  const db = require('../model');
+  const db = require('../model/index');
 
   // biometric params = weight, height, date, user_Id
   
@@ -7,13 +7,14 @@
     createBiometric: async (req, res) => {
       const { weight, height, date } = req.body;
       try {
-        const newWorkout = await db.Workout.create({
+        const newBiometric = await db.Biometric.create({
           weight,
           height,
           date,
-          user_Id : req.user._Id,
+          user_id: req.user._id,
         });
-        req.user.Biometric.push(newBiometric._id);
+        console.log(newBiometric);
+        req.user.biometrics.push(newBiometric._id);
         await req.user.save();
         res.json(newBiometric);
       } catch (e) {
@@ -37,7 +38,7 @@
           weight,
           height,
           date,
-          user_Id: req.user._id,
+          user_id: req.user._id,
         },{
           new: true,
         }));
@@ -55,7 +56,6 @@
         res.status(401).json(e);
       }
     }
-    
   };
 
   
