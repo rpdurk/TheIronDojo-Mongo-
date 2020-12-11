@@ -19,8 +19,6 @@ let workoutSeed = [{
     workoutName: "Monday Lift",
     exercise: "Bench",
     date: "12/05/2020",
-    id:'1'
-
   },
   {
     workoutName: "Tuesday Lift",
