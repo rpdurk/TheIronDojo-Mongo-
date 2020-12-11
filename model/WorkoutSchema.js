@@ -13,7 +13,10 @@ const WorkoutSchema = new Schema({
         type: Date,
         required: true,
     },
-    user_Id: [{type: Schema.Types.ObjectId, ref: 'User._Id'}],
+    user_Id: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
+    },
 })
 
 const Workout = model('Workout', WorkoutSchema);

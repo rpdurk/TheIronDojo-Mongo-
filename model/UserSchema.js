@@ -24,7 +24,16 @@ const UserSchema = mongoose.Schema(
     biometrics :[{
       type: mongoose.Schema.Types.ObjectId, 
       ref: "Biometric"
-      }]
+      }],
+    workouts:[{
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Workout"
+      }],
+    exercises:[{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Exercise"
+        }],
+
     // role: {
     //     type: String,
     //     required: [true, 'You must select a role'],
