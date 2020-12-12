@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const JwtStrategy = require("passport-jwt").Strategy;
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-const User = require("../model/UserSchema");
-const GoogleUser = mongoose.model("users");
-require("dotenv").config();
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const User = require('../model/UserSchema');
+const GoogleUsers = require('../model/GoogleUserSchema');
+require('dotenv').config();
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -20,24 +20,44 @@ const googleStrategy = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback",
+    callbackURL: 'http://localhost:3000/auth/google/callback',
     proxy: true,
   },
 
   async (request, accessToken, refreshToken, profile, done) => {
-    const existingUser = await GoogleUser.findOne({ googleId: profile.id });
-    if (existingUser) {
-      console.log(process.env.GOOGLE_CLIENT_ID,);
-      // console.log(`${existingUser} GoogleUser Exists`);
-      // console.log("refreshToken:", refreshToken);
-      return done(null, existingUser);
-    }
-    GoogleUser.create({ googleId: profile.id }, function (err, user) {
-      console.log(user);
-      return done(err, user);
+
+    let existingUser = null;
+
+    console.log(profile);
+
+    GoogleUsers.findOne({ googleId: profile.id }, function (err, data) {
+      console.log(`This is the found DATA ->`, data);
+      if (data !== null) {
+        console.log(`Does Exist.`);
+        existingUser = data._id;
+        return done(null, existingUser);
+      } else {
+        GoogleUsers.create(
+          {
+            googleId: profile.id,
+            email: profile.email,
+            firstName: profile.given_name,
+            lastName: profile.family_name,
+            avatar: profile.picture,
+            profile,
+          },
+          function (err, data) {
+            console.log(`Does NOT exist.`);
+            console.log(data);
+            return done(err, data);
+          }
+        );
+      }
+
     });
   }
 );
+
 const localStrategy = new LocalStrategy(async (username, password, done) => {
   //  Find a user with some given criteria
   //   if an error happened when you tried to find that user
@@ -58,16 +78,16 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
     if (doesPasswordMatch) {
       return done(null, user);
     }
-    console.log("happening");
+    console.log('happening');
     return done(null, false);
   } else {
-    console.log("happening");
+    console.log('happening');
     return done(null, false);
   }
   //   if no user was found call done like return done(null, false);
 });
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: process.env.MONGO_SECRET,
 };
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
