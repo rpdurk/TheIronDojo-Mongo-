@@ -1,7 +1,7 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const generateUserToken = (user) => {
+const generateUserToken = user => {
   return jwt.sign(
     {
       sub: user._id,
@@ -11,7 +11,7 @@ const generateUserToken = (user) => {
   );
 };
 
-module.exports = (app) => {
+module.exports = app => {
   // app.get(
   //   "/auth/google",
   //   passport.authenticate("google", {
@@ -23,24 +23,18 @@ module.exports = (app) => {
   app.get(
     '/auth/google',
     passport.authenticate('google', {
-      scope: ['https://www.googleapis.com/auth/plus.login'],
+      scope: [
+        'https://www.googleapis.com/auth/plus.login',
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email',
+      ],
       session: false,
     })
   );
 
-  // app.get(
-  //   "/auth/google/callback",
-  //   passport.authenticate("google", {
-  //     scope: ["email", "profile"],
-  //     successRedirect: "/auth/google/redirect",
-  //     failureRedirect: "/fail",
-  //   })
-  // );
-
   app.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      scope: ['email', 'profile'],
       failureRedirect: '/login',
       session: false,
     }),
