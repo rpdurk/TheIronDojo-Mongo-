@@ -19,22 +19,22 @@ module.exports = {
 
   // Get User details from DB
   getUserDetails: async (req, res) => {
-    console.log(`Getting user ddetails`);
-    console.log(`Params ->  Username: ${req.params.username}`);
-
     // Fetch from DB
+    try {
+      // Get ID and Username only no password from DB
+      const data = await User.findOne(
+        { username: req.params.username },
+        '-password'
+      );
 
-    const data = await User.findOne(
-      { username: req.params.username },
-      '-password'
-    );
-
-    console.log('huh', data);
-
-    res.json({
-      id: data._id,
-      username: data.username,
-    });
+      res.json({
+        id: data._id,
+        username: data.username,
+      });
+    } catch (error) {
+      console.log(error.message);
+      error && res.status(500).json({ error: true, message: error.message });
+    }
   },
 
   signUpApi: async (req, res) => {

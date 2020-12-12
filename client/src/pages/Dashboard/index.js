@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import clsx from "clsx";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import clsx from 'clsx';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Container,
   Grid,
@@ -12,13 +12,13 @@ import {
   TextField,
   Box,
   FormControl,
-} from "@material-ui/core/";
-import { setUserId } from "../User/UserReducer";
-import { setViewerToken } from "../Viewer/ViewerReducer";
-import { useUtils } from "../common";
-import ProgressChart from "../common/components/Charts/ProgressChart";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { current } from "@reduxjs/toolkit";
+} from '@material-ui/core/';
+import { setUserId } from '../User/UserReducer';
+import { setViewerToken } from '../Viewer/ViewerReducer';
+import { useUtils } from '../common';
+import ProgressChart from '../common/components/Charts/ProgressChart';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    display: "flex",
-    margin: "0 auto",
-    overflow: "auto",
-    flexDirection: "column",
-    textAlign: "center",
+    display: 'flex',
+    margin: '0 auto',
+    overflow: 'auto',
+    flexDirection: 'column',
+    textAlign: 'center',
   },
   fixedHeight: {
     height: 350,
@@ -42,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     marginBottom: theme.spacing(6),
     marginTop: theme.spacing(6),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   headerPadding: {
     paddingLeft: theme.spacing(2),
@@ -57,36 +57,19 @@ const Dashboard = () => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight); // -> Material UI
   const { dispatch, history } = useUtils();
   const location = useLocation();
-  const incomingUserId = location.pathname.split("/")[2];
-  const incomingUserToken = location.pathname.split("/")[3];
-  if (incomingUserId) {
-    dispatch(setUserId(incomingUserId));
-    localStorage.setItem("userId", incomingUserId);
-  }
-  if (incomingUserToken) {
-    // dispatch(setViewerToken(incomingUserToken));
-    localStorage.setItem("token", incomingUserToken);
-  }
+  const incomingUserId = location.pathname.split('/')[2];
+  const incomingUserToken = location.pathname.split('/')[3];
 
   //TODO: Check Token validity.
   // Get or Set userId
   let userId = useSelector((state) => state.user.curUserId);
-
-  if (userId === null) {
-    userId = localStorage.getItem("userId");
-    if (!userId) {
-      history.push("/");
-    } else {
-      dispatch(setUserId(userId));
-    }
-  }
 
   // Component State
   const [weeklyVolume, setWeeklyVolume] = useState(0);
   const [weeklyLifts, setWeeklyLifts] = useState(0);
   const [weeklyExercises, setWeeklyExercises] = useState(0);
   const [allExercises, setAllExercises] = useState([]); // Stores exercises
-  const [selectedExercise, setSelectedExercise] = useState("");
+  const [selectedExercise, setSelectedExercise] = useState('');
   const [reRender, setReRender] = useState(true); // Boolean For useEffect -> To Prevent Re Renders
   const [allExercisesByName, setAllExercisesByName] = useState([]); // Stores names
   const [tableData, setTableData] = useState([]);
@@ -99,18 +82,18 @@ const Dashboard = () => {
       if (exercise.exerciseName === selectedExercise) {
         // Check if Exercise Date exists in object
         if (
-          `${exercise.exerciseDate.split("T")[0]}` in currentExerciseArrayObj
+          `${exercise.exerciseDate.split('T')[0]}` in currentExerciseArrayObj
         ) {
           let tempVal =
-            currentExerciseArrayObj[`${exercise.exerciseDate.split("T")[0]}`]; // Store temporary value to be added
+            currentExerciseArrayObj[`${exercise.exerciseDate.split('T')[0]}`]; // Store temporary value to be added
           let addVal = tempVal + parseInt(exercise.weightUsedPerSet, 10); // Add the old and new values together
           currentExerciseArrayObj[
-            `${exercise.exerciseDate.split("T")[0]}`
+            `${exercise.exerciseDate.split('T')[0]}`
           ] = addVal; // Push values to object
         } else {
           // If it doesn't exist add it to object
           currentExerciseArrayObj[
-            `${exercise.exerciseDate.split("T")[0]}`
+            `${exercise.exerciseDate.split('T')[0]}`
           ] = parseInt(exercise.weightUsedPerSet);
         }
       }
@@ -139,9 +122,19 @@ const Dashboard = () => {
   // Calculate Data
   useEffect(() => {
     console.log(`DASHBOARD USEFFECT`);
-    // getData();
 
     if (reRender) {
+      if (incomingUserId) {
+        dispatch(setUserId(incomingUserId));
+        localStorage.setItem('userId', incomingUserId);
+      }
+
+      setTimeout(() => {
+        if (incomingUserToken) {
+          dispatch(setViewerToken(incomingUserToken));
+          localStorage.setItem('token', incomingUserToken);
+        }
+      }, 1000);
       // Get Workout List from Backend
       axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
         // Save Full Object to state
@@ -163,37 +156,37 @@ const Dashboard = () => {
 
   const data = [
     {
-      date: "Monday",
+      date: 'Monday',
       weight: 2400,
     },
     {
-      date: "Tuesday",
+      date: 'Tuesday',
       weight: 1398,
     },
     {
-      date: "Wednesday",
+      date: 'Wednesday',
       weight: 9800,
     },
     {
-      date: "Thursday",
+      date: 'Thursday',
       weight: 3908,
     },
     {
-      date: "Friday",
+      date: 'Friday',
       weight: 4800,
     },
     {
-      date: "Saturday",
+      date: 'Saturday',
       weight: 3800,
     },
     {
-      date: "Sunday",
+      date: 'Sunday',
       weight: 4300,
     },
   ];
 
   return (
-    <Container maxWidth="xl" className={classes.container}>
+    <Container maxWidth='xl' className={classes.container}>
       <Container className={classes.header}>
         <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
@@ -241,11 +234,11 @@ const Dashboard = () => {
             {/* <ProgressMenu /> */}
 
             <FormControl
-              style={{ margin: "0 auto 0.3rem auto" }}
+              style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
             >
               <Autocomplete
-                id="exerciseChart"
+                id='exerciseChart'
                 options={allExercisesByName}
                 getOptionLabel={(option) => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
@@ -253,8 +246,8 @@ const Dashboard = () => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Choose your Exercise"
-                    variant="outlined"
+                    label='Choose your Exercise'
+                    variant='outlined'
                   />
                 )}
               />
