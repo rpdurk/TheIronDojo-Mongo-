@@ -6,10 +6,11 @@ module.exports = {
 
   createWorkouts: async (req, res) => {
     const { workoutName, exercise, date } = req.body;
+    console.log(typeof exercise);
     try {
       const newWorkout = await db.Workout.create({
         workoutName,
-        exercise,
+        exercise: JSON.parse(exercise),
         date,
         user_id : req.user._id,
       });
@@ -63,5 +64,5 @@ module.exports = {
       res.status(401).json(e);
     }
   }
-  
+
 };

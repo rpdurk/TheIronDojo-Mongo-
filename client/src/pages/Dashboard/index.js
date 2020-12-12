@@ -18,6 +18,7 @@ import { setViewerToken } from '../Viewer/ViewerReducer';
 import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import PublicWorkout from "../common/components/PublicWorkout";
 import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
@@ -256,6 +257,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
+      <PublicWorkout/>
     </Container>
   );
 };

@@ -16,8 +16,9 @@ export const useCreateUser = () => {
       console.log('response 👇');
       console.log(res.data);
 
+      // SAve user ID and token in localStorage
       dispatch(setViewerToken(res.data));
-      
+
       history.push('/dashboard');
     });
   };

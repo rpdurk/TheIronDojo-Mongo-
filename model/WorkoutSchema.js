@@ -5,16 +5,16 @@ const WorkoutSchema = new Schema({
         type: String,
         required: [true, 'Workout name is required'],
     },
-    exercise: {
+    exercise: [{
         type: String,
         required: [true, 'Please add an exercise'],
-    },
+    }],
     date: {
         type: Date,
-        required: true,
+        // required: true,
     },
     user_id: {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
 })

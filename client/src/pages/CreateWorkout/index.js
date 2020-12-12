@@ -118,16 +118,21 @@ export default function CreateWorkout() {
       };
 
       setExercise([newExercise]);
-      let exercises = JSON.stringify(tempArr);
+      let exercise = JSON.stringify(tempArr);
 
       workoutObj = {
         workoutName,
         userId,
-        exercises,
+        exercise,
       };
 
       // Axios push
-      axios.post("/api/workout/addWorkout", workoutObj).then(res => {
+      axios.post("/api/workout/addWorkout",
+          workoutObj,
+          {
+            headers: { authorization: localStorage.getItem('token')}
+          }
+          ).then(res => {
         console.log(res.data);
       });
 
