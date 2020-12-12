@@ -16,15 +16,18 @@ passport.deserializeUser((user, done) => {
 });
 
 const googleStrategy = new GoogleStrategy(
+
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback",
     proxy: true,
   },
+
   async (request, accessToken, refreshToken, profile, done) => {
     const existingUser = await GoogleUser.findOne({ googleId: profile.id });
     if (existingUser) {
+      console.log(process.env.GOOGLE_CLIENT_ID,);
       // console.log(`${existingUser} GoogleUser Exists`);
       // console.log("refreshToken:", refreshToken);
       return done(null, existingUser);
@@ -69,9 +72,11 @@ const jwtOptions = {
 };
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
   // { sub: idOfTheUser, iat: timeThatThisTokenWasCreated }
+  console.log(jwtToken);
   let user;
   try {
     user = await User.findById(jwtToken.sub);
+    console.log('leh user', user);
     // user = await fetchUserByIdFromDb(jwtToken.sub);
   } catch (e) {
     return done(e, null);
