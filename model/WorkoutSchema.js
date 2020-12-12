@@ -13,7 +13,7 @@ const WorkoutSchema = new Schema({
         type: Date,
         required: true,
     },
-    user_Id: {
+    user_id: {
         type: Schema.Types.ObjectId, 
         ref: 'User'
     },

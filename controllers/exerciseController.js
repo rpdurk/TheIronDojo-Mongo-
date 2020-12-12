@@ -12,7 +12,7 @@ module.exports = {
         repetitions,
         weight,
         date,
-        user_Id: req.user._id,
+        user_id: req.user._id,
       });
       req.user.Exercise.push(newExercise._id);
       await req.user.save();
@@ -25,7 +25,7 @@ module.exports = {
   getAllExercisesByUserId: async (req, res) => {
     const id = req.params.id;
     try {
-      res.json(await db.Exercise.find({id}));
+      res.json(await db.Exercise.find({user_id: id}));
     }catch (e) {
       console.log('L: 30 exerciseController', e);
       res.status(401).json(e);
@@ -40,7 +40,7 @@ module.exports = {
         repetitions,
         weight,
         date,
-        user_Id: req.user._id,
+        user_id: req.user._id,
       }, {
         new: true,
       }));

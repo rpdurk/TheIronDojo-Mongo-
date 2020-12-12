@@ -21,7 +21,7 @@ const ExerciseSchema = new Schema({
         required: true,
     },
     // if time, add rest, time, or other options.
-    user_Id: 
+    user_id: 
         {type: Schema.Types.ObjectId, 
         ref: 'User'},
 })

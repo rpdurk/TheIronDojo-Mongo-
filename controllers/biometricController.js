@@ -5,6 +5,9 @@
   module.exports = {
   
     createBiometric: async (req, res) => {
+      console.log(req.user);
+      console.log(req.user._id);
+      console.log(req.body);
       const { weight, height, date } = req.body;
       try {
         const newBiometric = await db.Biometric.create({
@@ -23,15 +26,24 @@
       }
     },
     getAllBiometricByUserId: async (req, res) => {
+      // req.params.id takes the id from the middleware and passes it into the const id
+      // req.params.id should not be ._id.
       const id = req.params.id;
+      // console.log(id);
+      // console.log(req.params.id);
       try {
-        res.json(await db.Biometric.find({id}));
+        res.json(await db.Biometric.find({user_id: id}));
       }catch (e) {
         console.log('L:29 BiometricController', e);
         res.status(401).json(e);
       }
     },
     updateBiometricById: async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      console.log(req.params.id);
+      typeof(id);
+      typeof(req.params.id);
       try {
         const { weight, height, date } = req.body;
         res.json(await db.Biometric.findByIdAndUpdate(req.params.id, {
