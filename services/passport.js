@@ -25,7 +25,7 @@ const googleStrategy = new GoogleStrategy(
   async (request, accessToken, refreshToken, profile, done) => {
     let existingUser = null;
 
-    console.log(profile.id);
+    console.log(profile);
 
     GoogleUsers.findOne({ googleId: profile.id }, function (err, data) {
       console.log(`This is the found DATA ->`, data);
@@ -34,11 +34,21 @@ const googleStrategy = new GoogleStrategy(
         existingUser = data._id;
         return done(null, existingUser);
       } else {
-        GoogleUsers.create({ googleId: profile.id }, function (err, data) {
-          console.log(`Does NOT exist.`);
-          console.log(data);
-          return done(err, data);
-        });
+        GoogleUsers.create(
+          {
+            googleId: profile.id,
+            email: profile.email,
+            firstName: profile.given_name,
+            lastName: profile.family_name,
+            avatar: profile.picture,
+            profile,
+          },
+          function (err, data) {
+            console.log(`Does NOT exist.`);
+            console.log(data);
+            return done(err, data);
+          }
+        );
       }
     });
   }
