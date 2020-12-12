@@ -6,7 +6,7 @@
   
     createBiometric: async (req, res) => {
       console.log(req.user);
-      console.log(req.user._id);
+      // console.log(req.user._id);
       console.log(req.body);
       const { weight, height, date } = req.body;
       try {
@@ -42,17 +42,19 @@
       const id = req.params.id;
       console.log(id);
       console.log(req.params.id);
-      typeof(id);
-      typeof(req.params.id);
+      // typeof(id);
+      // typeof(req.params.id);
       try {
         const { weight, height, date } = req.body;
-        res.json(await db.Biometric.findByIdAndUpdate(req.params.id, {
+        res.json(await db.Biometric.findOneAndUpdate({user_id: req.params.id}, {
           weight,
           height,
           date,
           user_id: req.user._id,
         },{
           new: true,
+        }, () => {
+          console.log("This worked");
         }));
       } catch (e) {
         console.log('L:45 biometricController', e);
