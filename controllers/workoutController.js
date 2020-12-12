@@ -11,7 +11,7 @@ module.exports = {
         workoutName,
         exercise,
         date,
-        user_Id : req.user._Id,
+        user_id : req.user._id,
       });
       req.user.workouts.push(newWorkout._id);
       await req.user.save();
@@ -32,7 +32,7 @@ module.exports = {
   getAllWorkoutsByUserId: async (req, res) => {
     const id = req.params.id;
     try {
-      res.json(await db.Workout.find({id}));
+      res.json(await db.Workout.find({user_id: id}));
     }catch (e) {
       console.log('L:36 workoutController', e);
       res.status(401).json(e);
@@ -45,7 +45,7 @@ module.exports = {
         workoutName,
         exercise,
         date,
-        user_Id: req.user._id,
+        user_id: req.user._id,
       },{
         new: true,
       }));

@@ -19,6 +19,8 @@ let workoutSeed = [{
     workoutName: "Monday Lift",
     exercise: "Bench",
     date: "12/05/2020",
+    id:'1'
+
   },
   {
     workoutName: "Tuesday Lift",
@@ -35,7 +37,6 @@ let exerciseSeed = [{
   weight:135,
   date: "12/09/2020",
   // user_Id:
-
 },
 {
   exerciseName: "PushUp",
@@ -53,7 +54,6 @@ let biometricSeed = [{
   height: 70,
   date: "12/10/2020",
   // user_Id:
-
 },
 {
   weight: 150,
@@ -72,7 +72,6 @@ let userSeed = [
     lastName:"two",
   }
 ];
-
 db.Workout.deleteMany({})
   .then(() => db.Workout.collection.insertMany(workoutSeed))
   .then(data => {
@@ -83,7 +82,6 @@ db.Workout.deleteMany({})
     console.error(err);
     process.exit(1);
   });
-
 db.Exercise.deleteMany({})
   .then(() => db.Exercise.collection.insertMany(exerciseSeed))
   .then(data => {
@@ -94,7 +92,6 @@ db.Exercise.deleteMany({})
     console.error(err);
     process.exit(1);
   });
-
   db.Biometric.deleteMany({})
   .then(() => db.Biometric.collection.insertMany(biometricSeed))
   .then(data => {
@@ -105,7 +102,6 @@ db.Exercise.deleteMany({})
     console.error(err);
     process.exit(1);
   });
-
   db.User.deleteMany({})
   .then(() => db.User.collection.insertMany(userSeed))
   .then(data => {

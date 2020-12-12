@@ -21,7 +21,9 @@ const ExerciseSchema = new Schema({
         required: true,
     },
     // if time, add rest, time, or other options.
-    user_Id: [{type: Schema.Types.ObjectId, ref: 'User._Id'}],
+    user_id: 
+        {type: Schema.Types.ObjectId, 
+        ref: 'User'},
 })
 
 const Exercise = model('Exercise', ExerciseSchema);
