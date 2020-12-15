@@ -2,16 +2,22 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const UserSchema = mongoose.Schema(
   {
-    username: {
+    // email: {
+    //   type: String,
+    //   // required: [true, 'Username is required'],
+    //   trim: true,
+    //   unique: true,
+    // },
+    email: {
       type: String,
-      required: [true, 'Username is required'],
+      // required: [true, 'Username is required'],
       trim: true,
       unique: true,
     },
     password: {
       type: String,
       minlength: 6,
-      required: [true, 'Password is required'],
+      // required: [true, 'Password is required'],
     },
     firstName: {
       type: String,
@@ -21,18 +27,26 @@ const UserSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    biometrics :[{
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Biometric"
-      }],
-    workouts:[{
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Workout"
-      }],
-    exercises:[{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Exercise"
-        }],
+    biometrics: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Biometric',
+      },
+    ],
+    workouts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Workout',
+      },
+    ],
+    exercises: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Exercise',
+      },
+    ],
+    googleId: String,
+    profile: Object,
 
     // role: {
     //     type: String,
@@ -47,17 +61,17 @@ const UserSchema = mongoose.Schema(
 // Static belongs to the full ORM
 
 UserSchema.static({
-  findByUsername: function (username) {
+  findByEmail: function (email) {
     try {
-      return this.find({ username });
+      return this.find({ email });
     } catch (e) {
       console.log(e);
       throw new Error(e);
     }
   },
-  findOneByUsername: function (username) {
+  findOneByEmail: function (email) {
     try {
-      return this.findOne({ username });
+      return this.findOne({ email });
     } catch (e) {
       console.log(e);
       throw new Error(e);
@@ -68,7 +82,7 @@ UserSchema.static({
 // Methods belongs to an INSTANCE of the collection
 UserSchema.method({
   confirmUser: function () {
-    console.log(`I AM ${this.username}`);
+    console.log(`I AM ${this.email}`);
   },
   comparePassword: async function (candidatePassword) {
     try {

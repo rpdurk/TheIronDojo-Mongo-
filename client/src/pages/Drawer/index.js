@@ -28,7 +28,7 @@ import Banner from '../common/components/Banner';
 import { signOutUser } from '../User/UserReducer';
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
@@ -98,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersistentDrawerLeft = (props) => {
+const PersistentDrawerLeft = props => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { token } = useSelector((state) => state.viewer);
+  const { token } = useSelector(state => state.viewer);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -145,11 +145,11 @@ const PersistentDrawerLeft = (props) => {
     // },
   ];
   const accountItems = [
-    // {
-    //   text: "Account Details",
-    //   icon: <SettingsIcon />,
-    //   onClick: () => history.push("/account"),
-    // },
+    {
+      text: 'Account Details',
+      icon: <SettingsIcon />,
+      onClick: () => history.push('/account'),
+    },
     {
       text: 'Sign Out',
       icon: <ExitToAppIcon />,
@@ -160,17 +160,17 @@ const PersistentDrawerLeft = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position='fixed'
+        position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
         <Toolbar>
           <IconButton
-            color='inherit'
-            aria-label='open drawer'
+            color="inherit"
+            aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge='start'
+            edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
@@ -181,8 +181,8 @@ const PersistentDrawerLeft = (props) => {
       </AppBar>
       <Drawer
         className={classes.drawer}
-        variant='persistent'
-        anchor='left'
+        variant="persistent"
+        anchor="left"
         open={open}
         classes={{
           paper: classes.drawerPaper,
@@ -199,7 +199,7 @@ const PersistentDrawerLeft = (props) => {
         </div>
         <Divider />
         <List>
-          {menuItems.map((item) => {
+          {menuItems.map(item => {
             const { text, icon, onClick } = item;
             return (
               <ListItem button key={text} onClick={onClick}>
@@ -211,7 +211,7 @@ const PersistentDrawerLeft = (props) => {
         </List>
         <Divider />
         <List>
-          {accountItems.map((item) => {
+          {accountItems.map(item => {
             const { text, icon, onClick } = item;
             return (
               <ListItem button key={text} onClick={onClick}>

@@ -5,7 +5,6 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../model/UserSchema');
-const GoogleUsers = require('../model/GoogleUserSchema');
 require('dotenv').config();
 
 passport.serializeUser((user, done) => {
@@ -16,7 +15,6 @@ passport.deserializeUser((user, done) => {
 });
 
 const googleStrategy = new GoogleStrategy(
-
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -25,78 +23,84 @@ const googleStrategy = new GoogleStrategy(
   },
 
   async (request, accessToken, refreshToken, profile, done) => {
-
     let existingUser = null;
+    // console.log(profile);
 
-    console.log(profile);
-
-    GoogleUsers.findOne({ googleId: profile.id }, function (err, data) {
-      console.log(`This is the found DATA ->`, data);
+    User.findOne({ email: profile.email }, function (err, data) {
+      // console.log(`This is the found DATA ->`, data);
       if (data !== null) {
-        console.log(`Does Exist.`);
+        // console.log(`Does Exist.`);
         existingUser = data._id;
         return done(null, existingUser);
       } else {
-        GoogleUsers.create(
+        User.create(
           {
             googleId: profile.id,
             email: profile.email,
             firstName: profile.given_name,
             lastName: profile.family_name,
-            avatar: profile.picture,
             profile,
           },
           function (err, data) {
-            console.log(`Does NOT exist.`);
-            console.log(data);
+            // console.log(`Does NOT exist.`);
+            // console.log(data);
             return done(err, data);
           }
         );
       }
-
     });
   }
 );
 
-const localStrategy = new LocalStrategy(async (username, password, done) => {
-  //  Find a user with some given criteria
-  //   if an error happened when you tried to find that user
-  //   call done like this done(err, null);
-  let user;
-  try {
-    user = await User.findOneByUsername(username);
-    // user = await fetchUserByUsernameFromDb(username);
-  } catch (e) {
-    return done(e, null);
-  }
-  //   if you do find a user, check the users credentials
-  //   if the users credentials match, call done like this done(null, userWeFound);
-  //   What passport will do if we pass a user as the 2nd param to done
-  //   on the next request that the middleware applied
-  if (user) {
-    const doesPasswordMatch = await user.comparePassword(password);
-    if (doesPasswordMatch) {
-      return done(null, user);
+const localStrategy = new LocalStrategy(
+  { usernameField: 'email' },
+  async (email, password, done) => {
+    console.log(email);
+    //  Find a user with some given criteria
+    // if an error happened when you tried to find that user
+    // call done like this done(err, null);
+    let user;
+    try {
+      user = await User.findOneByEmail(email);
+      console.log('Line 62', user);
+      // user = await fetchUserByUsernameFromDb(username);
+    } catch (e) {
+      return done(e, null);
     }
-    console.log('happening');
-    return done(null, false);
-  } else {
-    console.log('happening');
-    return done(null, false);
+    //   if you do find a user, check the users credentials
+    //   if the users credentials match, call done like this done(null, userWeFound);
+    //   What passport will do if we pass a user as the 2nd param to done
+    //   on the next request that the middleware applied
+    if (user) {
+      console.log('Line 72', user);
+
+      const doesPasswordMatch = await user.comparePassword(password);
+      if (doesPasswordMatch) {
+        return done(null, user);
+      }
+      console.log('happening');
+      return done(null, false);
+    } else {
+      console.log('happening');
+      return done(null, false);
+    }
+    // if no user was found call done like return done(null, false);
   }
-  //   if no user was found call done like return done(null, false);
-});
+);
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: process.env.MONGO_SECRET,
 };
+
+//jwt strategy
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
+  console.log('SEEE MEEEEE');
   // { sub: idOfTheUser, iat: timeThatThisTokenWasCreated }
-  console.log(jwtToken);
+  // console.log('THIS ONE!!!', jwtToken);
   let user;
   try {
     user = await User.findById(jwtToken.sub);
-    console.log('leh user', user);
+    // console.log('leh user', user);
     // user = await fetchUserByIdFromDb(jwtToken.sub);
   } catch (e) {
     return done(e, null);
@@ -104,6 +108,7 @@ const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
   if (!user) {
     return done(null, false);
   } else {
+    // console.log('JWT ELSE');
     // take the user that is being passed as the 2nd parameter
     // and attach it to req.user on the next request
     return done(null, user);

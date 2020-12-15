@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/UserSchema');
 
-const tokenForUser = (id) => {
+const tokenForUser = id => {
   return jwt.sign(
     {
       sub: id,
@@ -13,7 +13,8 @@ const tokenForUser = (id) => {
 
 module.exports = {
   signInApi: (req, res) => {
-    const user = User.findByUsername(req.body.username);
+    console.log('HEEEEEEYYYYYYY');
+    const user = User.findByEmail(req.body.email);
     res.json(tokenForUser(req.user.id));
   },
 
@@ -21,15 +22,12 @@ module.exports = {
   getUserDetails: async (req, res) => {
     // Fetch from DB
     try {
-      // Get ID and Username only no password from DB
-      const data = await User.findOne(
-        { username: req.params.username },
-        '-password'
-      );
+      // Get ID and email only no password from DB
+      const data = await User.findOne({ email: req.params.email }, '-password');
 
       res.json({
         id: data._id,
-        username: data.username,
+        email: data.email,
       });
     } catch (error) {
       console.log(error.message);
@@ -38,9 +36,9 @@ module.exports = {
   },
 
   signUpApi: async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const user = await User.create({ username, password });
+      const user = await User.create({ email, password });
       res.json(tokenForUser(user._id));
     } catch (e) {
       console.log(e);

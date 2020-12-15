@@ -9,8 +9,8 @@ const {
 // /auth prepended to everything
 const signInMiddleware = require('../../middlewares/signInMiddleware');
 
-// /auth/userid/:username
-router.get('/userid/:username', getUserDetails);
+// /auth/userid/:email
+router.get('/userid/:email', getUserDetails);
 
 // /auth/signin
 router.post('/signin', signInMiddleware, signInApi);
