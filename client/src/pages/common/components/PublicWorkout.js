@@ -6,8 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
-
+import axios from "axios";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -24,64 +23,69 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
-
 export default function PublicWorkoutCard() {
   // let userId = useSelector((state) => state.user.curUserId);
-
   const classes = useStyles();
   // eslint-disable-next-line react/react-in-jsx-scope
   const bull = <span className={classes.bullet}>•</span>;
-  const [workoutName, setWorkoutName] = useState('');
-  const [exerciseName, setExerciseName] = useState([]);
+  // const [workoutName, setWorkoutName] = useState([])
+  // const [exerciseName, setExerciseName] = useState([])
+  const [topFiveWorkouts, setTopFiveWorkouts] = useState([])
+  useEffect(() => {
+    // IIFE Immediately Invoked Function
+    (async () => {
+      const res = await axios.get(`/api/workout/${localStorage.getItem('userId')}`, {
+        headers: { authorization: localStorage.getItem('token')}
+      });
+      const wNames = [];
+      for (let i = 0; i < 5; i ++) {
+        wNames.push(res.data[i]);
+      }
+      console.log(wNames);
+      setTopFiveWorkouts(wNames);
+      console.log(res.data);
 
-  // useEffect(() => {
-  //     // IIFE Immediately Invoked Function
-  //     (async () => {
-  //         const res = await axios.get(`/api/workout/${localStorage.getItem('userId')}`, {
-  //             headers: { authorization: localStorage.getItem('token')}
-  //         });
-  //         console.log(res.data);
-  //         const workoutName  = res.data[0].workoutName;
-  //         setWorkoutName(workoutName);
-  //         const exerciseName = res.data[7].exercise;
-  //         setExerciseName(exerciseName);
 
-  //     })()
-  // }, [])
-  // useEffect(async () => {
-  //     const response = axios.get(`/api/workouts/${userId}`)
-  //         .then(({data}) => {
-  //             console.log(data);
-  //             console.log(response);
-  //             // const json = await response.json();
-  //             const [item] = data.results;
-  //             setWorkout(item);
-  //
-  //         }), []);
+
+      // const resWorkoutNames = res.data.map(workout => workout.workoutName);
+      // setWorkoutName(resWorkoutNames);
+      // // const exerciseName = res.data[7].exercise;
+      // const resExerciseNames = res.data.map(workout => workout.exercise);
+      // setExerciseName(resExerciseNames);
+    })()
+  }, [])
+
+
 
   return (
-    // eslint-disable-next-line react/react-in-jsx-scope
-    <Card className={classes.root} variant="outlined">
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        ></Typography>
+      <div>
+        {topFiveWorkouts.map(workout => {
+          return (
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    Workout:
+                    <div>{workout.workoutName}</div>
+                    <div>{workout.date}</div>
 
-        <Typography className={classes.pos} color="textSecondary">
-          Workout
-          <div>{workoutName}</div>
-          <div>
-            {exerciseName.map(value => (
-              <div>{value}</div>
-            ))}
-          </div>
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions>
+              </Card>
+
+
+
+          )
+
+
+        })}
+      </div>
+
+      // eslint-disable-next-line react/react-in-jsx-scope
+
   );
 }
