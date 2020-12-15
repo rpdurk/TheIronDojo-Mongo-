@@ -4,14 +4,14 @@ const UserSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, 'Username is required'],
+      // required: [true, 'Username is required'],
       trim: true,
       unique: true,
     },
     password: {
       type: String,
       minlength: 6,
-      required: [true, 'Password is required'],
+      // required: [true, 'Password is required'],
     },
     firstName: {
       type: String,
@@ -21,18 +21,26 @@ const UserSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    biometrics :[{
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Biometric"
-      }],
-    workouts:[{
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Workout"
-      }],
-    exercises:[{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Exercise"
-        }],
+    biometrics: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Biometric',
+      },
+    ],
+    workouts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Workout',
+      },
+    ],
+    exercises: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Exercise',
+      },
+    ],
+    googleId: String,
+    profile: Object,
 
     // role: {
     //     type: String,

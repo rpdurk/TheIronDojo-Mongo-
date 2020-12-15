@@ -16,7 +16,6 @@ passport.deserializeUser((user, done) => {
 });
 
 const googleStrategy = new GoogleStrategy(
-
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -25,25 +24,23 @@ const googleStrategy = new GoogleStrategy(
   },
 
   async (request, accessToken, refreshToken, profile, done) => {
-
     let existingUser = null;
 
     console.log(profile);
 
-    GoogleUsers.findOne({ googleId: profile.id }, function (err, data) {
+    User.findOne({ email: profile.email }, function (err, data) {
       console.log(`This is the found DATA ->`, data);
       if (data !== null) {
         console.log(`Does Exist.`);
         existingUser = data._id;
         return done(null, existingUser);
       } else {
-        GoogleUsers.create(
+        User.create(
           {
             googleId: profile.id,
             email: profile.email,
             firstName: profile.given_name,
             lastName: profile.family_name,
-            avatar: profile.picture,
             profile,
           },
           function (err, data) {
@@ -53,7 +50,6 @@ const googleStrategy = new GoogleStrategy(
           }
         );
       }
-
     });
   }
 );
@@ -90,9 +86,11 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: process.env.MONGO_SECRET,
 };
+
+//jwt strategy
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
   // { sub: idOfTheUser, iat: timeThatThisTokenWasCreated }
-  console.log(jwtToken);
+  console.log('THIS ONE!!!', jwtToken);
   let user;
   try {
     user = await User.findById(jwtToken.sub);
