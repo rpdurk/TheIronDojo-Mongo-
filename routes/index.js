@@ -1,10 +1,10 @@
-const router = require("express").Router();
+const router = require('express').Router();
 // const exerciseRoutes = require('./apiRoutes/exerciseRoutes');
 // const workoutRoutes = require('./apiRoutes/workoutRoutes');
-const authRoutes = require("./authRoutes");
-const signInMiddleware = require("../middlewares/signInMiddleware");
+const authRoutes = require('./authRoutes');
+const signInMiddleware = require('../middlewares/signInMiddleware');
 // const userSignUp = require();
-const apiRoutes = require("./apiRoutes");
+const apiRoutes = require('./apiRoutes');
 
 // /api/users
 router.use('/api', apiRoutes);
@@ -18,6 +18,6 @@ router.use('/api', apiRoutes);
 
 // -> /api/workout
 // router.use('/api/workout', workoutRoutes);
-router.use("/auth", authRoutes);
+router.use('/auth', authRoutes);
 
 module.exports = router;

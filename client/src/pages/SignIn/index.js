@@ -1,62 +1,62 @@
-import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import { useFetchUser } from "./SignInHooks";
-import { useSelector } from "react-redux";
-import { useUtils } from "../common";
-import { setUserId, validCredentials } from "../User/UserReducer";
+import React, { useState } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import { useFetchUser } from './SignInHooks';
+import { useSelector } from 'react-redux';
+import { useUtils } from '../common';
+import { setUserId, validCredentials } from '../User/UserReducer';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
+      {'Copyright © '}
       <Link color="inherit" href="#">
         Strength App
-      </Link>{" "}
+      </Link>{' '}
       {new Date().getFullYear()}
-      {"."}
+      {'.'}
     </Typography>
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    height: "100vh",
+    height: '100vh',
   },
   image: {
     backgroundImage:
-      "url(https://i.pinimg.com/originals/ae/42/e4/ae42e483bf459a77366e39a9837122a2.jpg)",
-    backgroundRepeat: "no-repeat",
+      'url(https://i.pinimg.com/originals/ae/42/e4/ae42e483bf459a77366e39a9837122a2.jpg)',
+    backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === "light"
+      theme.palette.type === 'light'
         ? theme.palette.grey[50]
         : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   },
   paper: {
     margin: theme.spacing(14, 6),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -72,26 +72,26 @@ export default function SignInSide() {
   const { history, dispatch } = useUtils();
 
   // Sign In
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   let signInFunc = useFetchUser();
 
-  let credentialsError = useSelector((state) => state.user.credentialError);
+  let credentialsError = useSelector(state => state.user.credentialError);
 
   // Get or Set userId
-  let userId = useSelector((state) => state.user.curUserId);
+  let userId = useSelector(state => state.user.curUserId);
 
   if (userId === null) {
-    userId = localStorage.getItem("userId");
+    userId = localStorage.getItem('userId');
     if (userId) {
-      history.push("/dashboard");
+      history.push('/dashboard');
       dispatch(setUserId(userId));
     }
   }
 
   const onSubmit = () => {
-    signInFunc(username, password);
+    signInFunc(email, password);
 
     // TODO: Add a UI Warning/Alert
     // setTimeout(() => {
@@ -121,13 +121,13 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id={credentialsError ? "outlined-error-helper-text" : "email"}
-                label={credentialsError ? "Error" : "Email Address"}
-                helperText={credentialsError ? "Invalid Credentials" : ""}
+                id={credentialsError ? 'outlined-error-helper-text' : 'email'}
+                label={credentialsError ? 'Error' : 'Email Address'}
+                helperText={credentialsError ? 'Invalid Credentials' : ''}
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
             ) : (
               <TextField
@@ -140,7 +140,7 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
             )}
 
@@ -154,9 +154,9 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
-            {credentialsError ? "Invalid Credentials" : ""}
+            {credentialsError ? 'Invalid Credentials' : ''}
             <Link>
               <Button
                 type="button"
@@ -164,7 +164,7 @@ export default function SignInSide() {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={(e) => onSubmit()}
+                onClick={e => onSubmit()}
               >
                 Sign In
               </Button>
@@ -176,6 +176,7 @@ export default function SignInSide() {
                 variant="contained"
                 color="primary"
                 className={classes.google}
+                //TODO: make axios call. Fix URL for dev and Prod
                 href="http://localhost:3001/auth/google"
               >
                 Sign In With Google

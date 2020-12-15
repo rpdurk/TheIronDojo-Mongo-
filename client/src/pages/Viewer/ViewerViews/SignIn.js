@@ -23,10 +23,7 @@ import { setViewerToken } from '../ViewerReducer';
 
 const TextFieldInput = ({ input, meta, label }) => {
   // console.log('FIELD COMPONENT PROPS', props);
-  return <TextField
-    {...input}
-    label={label}
-  />;
+  return <TextField {...input} label={label} />;
 };
 
 // What Redux form does for us
@@ -38,13 +35,13 @@ const TextFieldInput = ({ input, meta, label }) => {
 //what handleSubmit will do is pass the forms Values as the first parameter
 // handleSubmit also preventsDefault for us right away
 // to the function that it's calling
-const SignIn = (props) => {
+const SignIn = props => {
   const { handleSubmit, history } = props;
 
   console.log(props);
   const handleSignIn = async (formValues, dispatch) => {
     console.log(formValues);
-    //{ username: 'Your enterereduseRName', password: 'your password' }
+    //{ email: 'Your entereredEmail', password: 'your password' }
     try {
       const res = await axios.post('/auth/signin', formValues);
       localStorage.setItem('token', res.data);
@@ -53,24 +50,17 @@ const SignIn = (props) => {
     } catch (e) {
       throw new Error(e);
     }
-  }
+  };
 
   return (
     <form noValidate autoComplete="off">
-      <Field
-        name='username'
-        label='username'
-        component={TextFieldInput}
-      />
-      <Field
-        name='password'
-        label='password'
-        component={TextFieldInput}
-      />
+      <Field name="email" label="email" component={TextFieldInput} />
+      <Field name="password" label="password" component={TextFieldInput} />
       <Button
-        onClick={ handleSubmit(handleSignIn) }
+        onClick={handleSubmit(handleSignIn)}
         variant="contained"
-        color="primary">
+        color="primary"
+      >
         Sign in
       </Button>
     </form>

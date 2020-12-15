@@ -18,35 +18,35 @@ import theme from './utils/Theme';
 import { useSelector } from 'react-redux';
 
 function App() {
-  let viewer = useSelector((state) => state.viewer);
+  let viewer = useSelector(state => state.viewer);
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Route exact path='/' component={SignIn} />
-        <Route path='/signup' component={SignUp} />
-        <Route path={['/dashboard', '/create', '/log']}>
+        <Route exact path="/" component={SignIn} />
+        <Route path="/signup" component={SignUp} />
+        <Route path={['/dashboard', '/create', '/log', '/account']}>
           <Drawer>
             <Switch>
-              <Route path='/dashboard'>
+              <Route path="/dashboard">
                 <Dashboard />
                 {/* {viewer.token ? <Dashboard /> : <Redirect to="/" />} */}
               </Route>
-              <Route path='/create'>
-                {viewer.token ? <CreateWorkout /> : <Redirect to='/' />}
+              <Route path="/create">
+                {viewer.token ? <CreateWorkout /> : <Redirect to="/" />}
               </Route>
-              <Route path='/log'>
-                {viewer.token ? <LogWorkout /> : <Redirect to='/' />}
+              <Route path="/log">
+                {viewer.token ? <LogWorkout /> : <Redirect to="/" />}
               </Route>
               {/* <Route path="/auth/google/login">
                 <GoogleLogin />
               </Route> */}
               {/* <Route exact path='/progress'>
                 {viewer.token ? <Progress /> : <Redirect to='/' />}
-              </Route>
-              <Route exact path='/account'>
-                {viewer.token ? <Account /> : <Redirect to='/' />}
               </Route> */}
+              <Route exact path="/account">
+                {viewer.token ? <Account /> : <Redirect to="/" />}
+              </Route>
             </Switch>
           </Drawer>
         </Route>

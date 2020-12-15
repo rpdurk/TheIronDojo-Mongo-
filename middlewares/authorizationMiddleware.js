@@ -1,5 +1,5 @@
 const passport = require('passport');
 
-const authMiddleware = passport.authenticate('jwt', { session: false });
+const authMiddleware = passport.authenticate('jwt');
 
 module.exports = authMiddleware;

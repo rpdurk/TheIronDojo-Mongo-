@@ -18,10 +18,10 @@ import { setViewerToken } from '../Viewer/ViewerReducer';
 import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import PublicWorkout from "../common/components/PublicWorkout";
+import PublicWorkout from '../common/components/PublicWorkout';
 import { current } from '@reduxjs/toolkit';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -63,7 +63,7 @@ const Dashboard = () => {
 
   //TODO: Check Token validity.
   // Get or Set userId
-  let userId = useSelector((state) => state.user.curUserId);
+  let userId = useSelector(state => state.user.curUserId);
 
   // Component State
   const [weeklyVolume, setWeeklyVolume] = useState(0);
@@ -114,7 +114,7 @@ const Dashboard = () => {
     });
 
     let tempArray = [];
-    sorted.forEach((el) => {
+    sorted.forEach(el => {
       tempArray.push({ date: el[0], weight: el[1] });
     });
     setTableData(tempArray);
@@ -136,13 +136,22 @@ const Dashboard = () => {
           localStorage.setItem('token', incomingUserToken);
         }
       }, 1000);
+
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: localStorage.getItem('token') },
+        })
+        .then(res => {
+          console.log(res);
+        });
+
       // Get Workout List from Backend
       axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
         // Save Full Object to state
         setAllExercises(data);
 
         // Get Names and IDs from workouts
-        const temp = data.map((exercise) => exercise.exerciseName);
+        const temp = data.map(exercise => exercise.exerciseName);
         // const resWorkoutIds = data.map((workout) => workout.id);
 
         let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
@@ -187,7 +196,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <Container maxWidth='xl' className={classes.container}>
+    <Container maxWidth="xl" className={classes.container}>
       <Container className={classes.header}>
         <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
@@ -239,16 +248,16 @@ const Dashboard = () => {
               className={classes.centerInput}
             >
               <Autocomplete
-                id='exerciseChart'
+                id="exerciseChart"
                 options={allExercisesByName}
-                getOptionLabel={(option) => option}
+                getOptionLabel={option => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
                 style={{ width: 400 }}
-                renderInput={(params) => (
+                renderInput={params => (
                   <TextField
                     {...params}
-                    label='Choose your Exercise'
-                    variant='outlined'
+                    label="Choose your Exercise"
+                    variant="outlined"
                   />
                 )}
               />
@@ -257,7 +266,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-      <PublicWorkout/>
+      <PublicWorkout />
     </Container>
   );
 };

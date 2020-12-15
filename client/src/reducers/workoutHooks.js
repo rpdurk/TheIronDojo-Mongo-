@@ -7,12 +7,12 @@ export const usefetchWorkouts = () => {
 
   const fetchWorkouts = async () => {
     try {
-      const res = await axios.post('/', { username, password });
+      const res = await axios.post('/', { email, password });
 
       console.log('serve', res);
       localStorage.setItem('token', res.data);
       dispatch(setViewerToken(res.data));
-      dispatch(setUsername(username));
+      dispatch(setEmail(email));
       history.push('/dashboard');
     } catch (e) {
       // console.log(e.response.status === 401)

@@ -5,9 +5,9 @@ const accountController = require('../../../controllers/accountController');
 const authMiddleware = require('../../../middlewares/authorizationMiddleware');
 router.use(authMiddleware);
 
-// at api/account/:id
+// at api/account/details
 router
-  .route('/:id')
+  .route('/details')
   // creates an account
   // .post(accountController.createAccounts)
   // Gets all accounts by user Id

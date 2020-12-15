@@ -4,9 +4,9 @@ const INITIAL_STATE = {
   users: [],
   selectedUser: {
     id: '',
-    username: '',
+    email: '',
   },
-  curUsername: null,
+  curEmail: null,
   curUserId: null,
   moreState: false,
   credentialError: false,
@@ -26,7 +26,7 @@ const userSlice = createSlice({
       return {
         ...state,
         curUserId: action.payload.id,
-        curUsername: action.payload.username,
+        curEmail: action.payload.email,
       };
     },
     setUserId: (state, action) => ({ ...state, curUserId: action.payload }),
@@ -42,9 +42,9 @@ const userSlice = createSlice({
       users: [],
       selectedUser: {
         id: '',
-        username: '',
+        email: '',
       },
-      curUsername: null,
+      curEmail: null,
       curUserId: null,
       moreState: false,
       credentialError: false,

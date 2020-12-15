@@ -1,9 +1,9 @@
-const { createProxyMiddleware } = require("http-proxy-middleware");
-module.exports = (app) => {
+const { createProxyMiddleware } = require('http-proxy-middleware');
+module.exports = app => {
   app.use(
-    ["/api", "/auth/google"],
+    ['/api', '/auth/google'],
     createProxyMiddleware({
-      target: "http://localhost:3001",
+      target: 'http://localhost:3001',
     })
   );
 };
