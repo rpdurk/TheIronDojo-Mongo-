@@ -239,10 +239,10 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
+            <PublicWorkout />
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
             {/* <ProgressMenu /> */}
-
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
@@ -266,7 +266,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-      <PublicWorkout />
+      
     </Container>
   );
 };

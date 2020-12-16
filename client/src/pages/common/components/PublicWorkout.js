@@ -6,6 +6,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import axios from "axios";
 const useStyles = makeStyles({
   root: {
@@ -21,6 +23,11 @@ const useStyles = makeStyles({
   },
   pos: {
     marginBottom: 12,
+  },
+  paper: {
+    height: 160,
+    width: 220,
+    padding:20,
   },
 });
 export default function PublicWorkoutCard() {
@@ -58,33 +65,22 @@ export default function PublicWorkoutCard() {
 
 
   return (
-      <div>
-        {topFiveWorkouts.map(workout => {
-          return (
-              <Card className={classes.root} variant="outlined">
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    Workout:
-                    <div>{workout.workoutName}</div>
-                    <div>{workout.date}</div>
-
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions>
-              </Card>
-
-
-
-          )
-
-
-        })}
-      </div>
-
+      
+      <Grid>
+        <Grid container  direction="row" justify="space-evenly"
+          alignItems="center" spacing={3}>
+            {topFiveWorkouts.map(workout => {
+                return (
+                    <Grid item xs={2} >
+                        <Paper className={classes.paper} >
+                        Workout:<div>{workout.workoutName}</div>
+                        Date: <div>{workout.date}</div>
+                        </Paper>
+                    </Grid>
+                )
+            })}
+        </Grid>
+      </Grid>
       // eslint-disable-next-line react/react-in-jsx-scope
 
   );
