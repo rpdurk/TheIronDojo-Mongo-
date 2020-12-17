@@ -148,29 +148,29 @@ const Dashboard = () => {
 
       // getUserDetails();
 
-      // axios
-      //   .get(`/api/account/details`, {
-      //     headers: { authorization: localStorage.getItem('token') },
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //   });
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: localStorage.getItem('token') },
+        })
+        .then(res => {
+          console.log(res);
+        });
 
-      // // Get Workout List from Backend
-      // axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
-      //   // Save Full Object to state
-      //   setAllExercises(data);
+      // Get Workout List from Backend
+      axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
+        // Save Full Object to state
+        setAllExercises(data);
 
-      //   // Get Names and IDs from workouts
-      //   const temp = data.map(exercise => exercise.exerciseName);
-      //   // const resWorkoutIds = data.map((workout) => workout.id);
+        // Get Names and IDs from workouts
+        const temp = data.map(exercise => exercise.exerciseName);
+        // const resWorkoutIds = data.map((workout) => workout.id);
 
-      //   let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
+        let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
 
-      //   setAllExercisesByName(resExerciseNames);
+        setAllExercisesByName(resExerciseNames);
 
-      setReRender(false);
-      // }); // Axios Get
+        setReRender(false);
+      }); // Axios Get
     }
     makeChartData();
   }, [reRender, selectedExercise]);
@@ -250,7 +250,7 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
-        {/* <PublicWorkout /> */}
+        <PublicWorkout />
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
             {/* <ProgressMenu /> */}
