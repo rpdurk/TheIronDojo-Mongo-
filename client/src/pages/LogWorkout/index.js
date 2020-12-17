@@ -1,4 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
+import { getWorkouts } from '../../reducers/workoutReducer';
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -203,9 +204,11 @@ const LogWorkout = () => {
   useEffect(() => {
     if (reRender) {
       // Get Workout List from Backend
-      axios.get(`/api/workout/user/${userId}`).then(({ data }) => {
-        // Save Full Object to state
-        setWorkoutObj(data);
+      axios.get(`/api/workout/${localStorage.getItem('userId')}`, {
+        headers: { authorization: localStorage.getItem('token')}
+      }).then(({ data }) => {
+        // Save Full workouts to state using workout reducers
+        dispatch(getWorkouts(data));
 
         // Get Names and IDs from workouts
         const resWorkoutNames = data.map(workout => workout.workoutName);

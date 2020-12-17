@@ -16,6 +16,6 @@ const workoutSlice = createSlice({
   },
 });
 
-export const { getWorkouts } = viewerSlice.actions;
+export const { getWorkouts } = workoutSlice.actions;
 
-export const workoutsReducer = workoutsSlice.reducer;
+export const workoutsReducer = workoutSlice.reducer;
