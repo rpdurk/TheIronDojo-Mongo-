@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   curUserId: null,
   moreState: false,
   credentialError: false,
+  userDetails: JSON.parse(localStorage.getItem('userDetails')),
 };
 
 const userSlice = createSlice({
@@ -49,6 +50,10 @@ const userSlice = createSlice({
       moreState: false,
       credentialError: false,
     }),
+    setUserDetails: (state, action) => ({
+      ...state,
+      userDetails: action.payload,
+    }),
   },
 });
 
@@ -60,6 +65,7 @@ export const {
   invalidCredentials,
   validCredentials,
   signOutUser,
+  setUserDetails,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

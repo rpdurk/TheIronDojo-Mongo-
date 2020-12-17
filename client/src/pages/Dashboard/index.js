@@ -13,7 +13,7 @@ import {
   Box,
   FormControl,
 } from '@material-ui/core/';
-import { setUserId } from '../User/UserReducer';
+import { setUserId, setUserDetails } from '../User/UserReducer';
 import { setViewerToken } from '../Viewer/ViewerReducer';
 import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
@@ -142,6 +142,17 @@ const Dashboard = () => {
           headers: { authorization: localStorage.getItem('token') },
         })
         .then(res => {
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
+        });
+
+      // getUserDetails();
+
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: localStorage.getItem('token') },
+        })
+        .then(res => {
           console.log(res);
         });
 
@@ -239,7 +250,7 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
-            <PublicWorkout />
+        <PublicWorkout />
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
             {/* <ProgressMenu /> */}
@@ -266,7 +277,6 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-      
     </Container>
   );
 };
