@@ -165,29 +165,34 @@ const LogWorkout = () => {
 
     for (let i = 0; i <= counter; i++) {
       let exerciseName = document.getElementById(`exerciseName${i}`).innerText;
-      let setTotal = document.getElementById(`sets${i}`).value;
-      let repetitionsCompletedPerSet = document.getElementById(`reps${i}`)
+      let sets = document.getElementById(`sets${i}`).value;
+      let repetitions = document.getElementById(`reps${i}`)
         .value;
-      let weightUsedPerSet = document.getElementById(`weight${i}`).value;
-      let exerciseDate = document.getElementById("workoutDate").value;
+      let weight = document.getElementById(`weight${i}`).value;
+      let date = document.getElementById("workoutDate").value;
 
       if (
         exerciseName === "" ||
-        setTotal === "" ||
-        repetitionsCompletedPerSet === "" ||
-        weightUsedPerSet === "" ||
-        exerciseDate === ""
+        sets === "" ||
+        repetitions === "" ||
+        weight === "" ||
+        date === ""
       ) {
         // setInputError(true);
         console.log(`Inputs missing.`);
         didItPass = false;
       } else {
-        axios.post(`/api/exercise/add/${userId}`, {
+        // userId is being obtained from the state, but could be obtained from local storage as well
+        axios.post(`/api/exercise/${userId}`, {
           exerciseName,
-          setTotal,
-          repetitionsCompletedPerSet,
-          weightUsedPerSet,
-          exerciseDate,
+          sets,
+          repetitions,
+          weight,
+          date,
+          // user_Id,
+        }, {
+          headers: { authorization: localStorage.getItem('token')
+        }
         });
       }
     }
@@ -204,7 +209,7 @@ const LogWorkout = () => {
   useEffect(() => {
     if (reRender) {
       // Get Workout List from Backend
-      axios.get(`/api/workout/${localStorage.getItem('userId')}`, {
+      axios.get(`/api/workout/${userId}`, {
         headers: { authorization: localStorage.getItem('token')}
       }).then(({ data }) => {
         // Save Full workouts to state using workout reducers
@@ -212,7 +217,7 @@ const LogWorkout = () => {
 
         // Get Names and IDs from workouts
         const resWorkoutNames = data.map(workout => workout.workoutName);
-        const resWorkoutIds = data.map(workout => workout.id);
+        const resWorkoutIds = data.map(workout => workout._id);
 
         setWorkoutNames(resWorkoutNames);
         setWorkoutIds(resWorkoutIds);
