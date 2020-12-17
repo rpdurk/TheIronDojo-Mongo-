@@ -13,7 +13,7 @@ import {
   Box,
   FormControl,
 } from '@material-ui/core/';
-import { setUserId } from '../User/UserReducer';
+import { setUserId, setUserDetails } from '../User/UserReducer';
 import { setViewerToken } from '../Viewer/ViewerReducer';
 import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
@@ -142,24 +142,35 @@ const Dashboard = () => {
           headers: { authorization: localStorage.getItem('token') },
         })
         .then(res => {
-          console.log(res);
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
         });
 
-      // Get Workout List from Backend
-      axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
-        // Save Full Object to state
-        setAllExercises(data);
+      // getUserDetails();
 
-        // Get Names and IDs from workouts
-        const temp = data.map(exercise => exercise.exerciseName);
-        // const resWorkoutIds = data.map((workout) => workout.id);
+      // axios
+      //   .get(`/api/account/details`, {
+      //     headers: { authorization: localStorage.getItem('token') },
+      //   })
+      //   .then(res => {
+      //     console.log(res);
+      //   });
 
-        let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
+      // // Get Workout List from Backend
+      // axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
+      //   // Save Full Object to state
+      //   setAllExercises(data);
 
-        setAllExercisesByName(resExerciseNames);
+      //   // Get Names and IDs from workouts
+      //   const temp = data.map(exercise => exercise.exerciseName);
+      //   // const resWorkoutIds = data.map((workout) => workout.id);
 
-        setReRender(false);
-      }); // Axios Get
+      //   let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
+
+      //   setAllExercisesByName(resExerciseNames);
+
+      setReRender(false);
+      // }); // Axios Get
     }
     makeChartData();
   }, [reRender, selectedExercise]);
@@ -239,7 +250,7 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
-            <PublicWorkout />
+        {/* <PublicWorkout /> */}
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
             {/* <ProgressMenu /> */}
@@ -266,7 +277,6 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-      
     </Container>
   );
 };

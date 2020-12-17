@@ -13,53 +13,49 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-
-const user = {
-  avatar: '',
-  city: 'San Francisco',
-  state: 'CA',
-  jobTitle: 'Athlete',
-  name: 'Ryan Durk',
-  timezone: 'GTM-7',
-};
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
-  root: {},
+  root: {
+    maxWidth: 500,
+  },
   avatar: {
-    height: 100,
-    width: 100,
+    height: 150,
+    width: 150,
+    margin: '15px',
+  },
+  name: {
+    fontSize: '1.5rem',
   },
 }));
 
 const Profile = ({ className, ...rest }) => {
   const classes = useStyles();
+  const user = useSelector(state => state.user.userDetails);
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
-        <Box alignItems="center" display="flex" flexDirection="column">
-          <Avatar className={classes.avatar} src={user.avatar} />
-          <Typography color="textPrimary" gutterBottom variant="h3">
-            {user.name}
+        <Box
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+          maxWidth="300"
+        >
+          <Avatar className={classes.avatar} src={user.profile.picture} />
+          <Typography
+            className={classes.name}
+            color="textPrimary"
+            gutterBottom
+            variant="h3"
+          >
+            {user.profile.displayName}
           </Typography>
           <Typography color="textSecondary" variant="body1">
-            {`${user.city}, ${user.state}`}
-          </Typography>
-          <Typography
-            className={classes.dateText}
-            color="textSecondary"
-            variant="body1"
-          >
-            {`${moment().format('hh:mm A')} ${user.timezone}`}
+            {`${user.profile.email}`}
           </Typography>
         </Box>
       </CardContent>
-      <Divider />
-      <CardActions>
-        <Button color="primary" fullWidth variant="text">
-          Upload picture
-        </Button>
-      </CardActions>
     </Card>
   );
 };

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getUsers, getUser } from './UserReducer';
+import { getUsers, getUser, setUserDetails } from './UserReducer';
 import { useUtils } from '../common';
 import { reset } from 'redux-form';
 import axios from 'axios';
@@ -11,16 +11,16 @@ export const useUserView = () => {
 
   const params = useParams();
   console.log(params);
-  const { selectedUser } = useSelector((state) => state.user);
+  const { selectedUser } = useSelector(state => state.user);
   useEffect(() => {
     axios
       .get(`/api/users/${params.userId}`, {
         headers: { authorization: localStorage.getItem('token') },
       })
-      .then((res) => {
+      .then(res => {
         dispatch(getUser(res.data));
       })
-      .catch((e) => console.log(e));
+      .catch(e => console.log(e));
   }, [dispatch, params.userId]);
 
   return {
@@ -44,22 +44,40 @@ export const useUserView = () => {
 //   };
 // };
 
-export const useFetchUsers = () => {
-  const { dispatch } = useUtils();
+// export const useFetchUsers = () => {
+//   const { dispatch } = useUtils();
 
-  const { users } = useSelector((state) => state.user);
-  useEffect(() => {
-    axios
-      .get('/api/users', {
-        headers: { authorization: localStorage.getItem('token') },
-      })
-      .then((res) => {
-        dispatch(getUsers(res.data));
-      })
-      .catch((e) => console.log(e));
-  }, [dispatch]);
+//   const { users } = useSelector(state => state.user);
+//   useEffect(() => {
+//     axios
+//       .get('/api/users', {
+//         headers: { authorization: localStorage.getItem('token') },
+//       })
+//       .then(res => {
+//         dispatch(getUsers(res.data));
+//       })
+//       .catch(e => console.log(e));
+//   }, [dispatch]);
 
-  return {
-    users,
-  };
-};
+//   return {
+//     users,
+//   };
+// };
+
+// export const getUserDetails = () => {
+//   const { dispatch } = useUtils();
+
+//   // const { users } = useSelector((state) => state.user);
+
+//   axios
+//     .get(`/api/account/details`, {
+//       headers: { authorization: localStorage.getItem('token') },
+//     })
+//     .then(res => {
+//       dispatch(setUserDetails(res.data));
+//     });
+
+//   return {
+//     users,
+//   };
+// };
