@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import {
   Box,
   Button,
@@ -14,102 +14,24 @@ import {
   OutlinedInput,
   InputAdornment,
   MenuItem,
-} from "@material-ui/core";
+} from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const ProfileDetails = ({ className, ...rest }) => {
+  const user = useSelector(state => state.user.userDetails);
+
   const [values, setValues] = useState({
-    firstName: "Ryan",
-    lastName: "Durk",
-    email: "demo@sfsu.edu",
-    city: "San Francisco",
-    state: "CA",
-    feet: 6,
-    inches: 1,
-    weight: 175,
+    firstName: user.firstName ? user.firstName : '',
+    lastName: user.lastName ? user.lastName : '',
+    email: user.email ? user.email : '',
   });
-  const feet = [
-    {
-      value: 3,
-      label: 3,
-    },
-    {
-      value: 4,
-      label: 4,
-    },
-    {
-      value: 5,
-      label: 5,
-    },
-    {
-      value: 6,
-      label: 6,
-    },
-    {
-      value: 7,
-      label: 7,
-    },
-  ];
-  const inches = [
-    {
-      value: 0,
-      label: 0,
-    },
-    {
-      value: 1,
-      label: 1,
-    },
-    {
-      value: 2,
-      label: 2,
-    },
-    {
-      value: 3,
-      label: 3,
-    },
-    {
-      value: 4,
-      label: 4,
-    },
-    {
-      value: 5,
-      label: 5,
-    },
-    {
-      value: 6,
-      label: 6,
-    },
-    {
-      value: 7,
-      label: 7,
-    },
-    {
-      value: 8,
-      label: 8,
-    },
-    {
-      value: 9,
-      label: 9,
-    },
-    {
-      value: 10,
-      label: 10,
-    },
-    {
-      value: 11,
-      label: 11,
-    },
-    {
-      value: 12,
-      label: 12,
-    },
-  ];
 
   const useStyles = makeStyles(() => ({
-    title: { textAlign: "center" },
+    title: { textAlign: 'center' },
   }));
   const classes = useStyles();
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
@@ -163,87 +85,6 @@ const ProfileDetails = ({ className, ...rest }) => {
                 onChange={handleChange}
                 value={values.email}
                 variant="outlined"
-              />
-            </Grid>
-            {/* City */}
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="City"
-                id="city"
-                name="city"
-                onChange={handleChange}
-                value={values.city}
-                variant="outlined"
-              />
-            </Grid>
-            {/* State */}
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="State"
-                id="state"
-                name="state"
-                onChange={handleChange}
-                value={values.state}
-                variant="outlined"
-              />
-            </Grid>
-            {/* Height */}
-            <Grid item md={3} xs={6}>
-              <TextField
-                id="feet"
-                select
-                fullWidth
-                type="number"
-                label="Height (ft)"
-                value={values.feet}
-                onChange={handleChange}
-                variant="outlined"
-                endAdornment={
-                  <InputAdornment position="end">Lbs</InputAdornment>
-                }
-              >
-                {feet.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item md={3} xs={6}>
-              <TextField
-                id="inches"
-                select
-                fullWidth
-                type="number"
-                label="Height (in)"
-                value={values.inches}
-                onChange={handleChange}
-                variant="outlined"
-                endAdornment={
-                  <InputAdornment position="end">Lbs</InputAdornment>
-                }
-              >
-                {inches.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            {/* Weight */}
-            <Grid item md={6} xs={12}>
-              <TextField
-                id="weight"
-                label="Weight (lbs)"
-                onChange={handleChange}
-                type="number"
-                value={values.weight}
-                variant="outlined"
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
             </Grid>
           </Grid>

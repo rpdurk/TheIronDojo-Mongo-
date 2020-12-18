@@ -13,7 +13,7 @@ import {
   Box,
   FormControl,
 } from '@material-ui/core/';
-import { setUserId } from '../User/UserReducer';
+import { setUserId, setUserDetails } from '../User/UserReducer';
 import { setViewerToken } from '../Viewer/ViewerReducer';
 import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
@@ -21,7 +21,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import PublicWorkout from '../common/components/PublicWorkout';
 import { current } from '@reduxjs/toolkit';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -61,9 +61,10 @@ const Dashboard = () => {
   const incomingUserId = location.pathname.split('/')[2];
   const incomingUserToken = location.pathname.split('/')[3];
 
-  //TODO: Check Token validity.
-  // Get or Set userId
-  let userId = useSelector(state => state.user.curUserId);
+  // Redux ⚛ Get userId
+  const userId = useSelector((state) => state.user.curUserId);
+  // Redux ⚛ Get token
+  const token = useSelector((state) => state.viewer.token);
 
   // Component State
   const [weeklyVolume, setWeeklyVolume] = useState(0);
@@ -114,7 +115,7 @@ const Dashboard = () => {
     });
 
     let tempArray = [];
-    sorted.forEach(el => {
+    sorted.forEach((el) => {
       tempArray.push({ date: el[0], weight: el[1] });
     });
     setTableData(tempArray);
@@ -141,26 +142,43 @@ const Dashboard = () => {
         .get(`/api/account/details`, {
           headers: { authorization: localStorage.getItem('token') },
         })
-        .then(res => {
+        .then((res) => {
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
+        });
+
+      // getUserDetails();
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: localStorage.getItem('token') },
+        })
+        .then((res) => {
           console.log(res);
         });
 
+      console.log(`this is the userId ${userId}`);
+
       // Get Workout List from Backend
-      axios.get(`/api/exercise/user/${userId}`).then(({ data }) => {
-        // Save Full Object to state
-        setAllExercises(data);
+      axios
+        .get(`/api/exercise`, {
+          headers: { authorization: token },
+        })
+        .then(({ data }) => {
+          // Save Full Object to state
+          setAllExercises(data);
 
-        // Get Names and IDs from workouts
-        const temp = data.map(exercise => exercise.exerciseName);
-        // const resWorkoutIds = data.map((workout) => workout.id);
+          // Get Names and IDs from workouts
+          const temp = data.map((exercise) => exercise.exerciseName);
+          // const resWorkoutIds = data.map((workout) => workout.id);
 
-        let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
+          let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
 
-        setAllExercisesByName(resExerciseNames);
+          setAllExercisesByName(resExerciseNames);
 
-        setReRender(false);
-      }); // Axios Get
+          setReRender(false);
+        }); // Axios Get
     }
+
     makeChartData();
   }, [reRender, selectedExercise]);
 
@@ -196,7 +214,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <Container maxWidth="xl" className={classes.container}>
+    <Container maxWidth='xl' className={classes.container}>
       <Container className={classes.header}>
         <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
@@ -239,7 +257,7 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
-            {/* <PublicWorkout /> */}
+        {/* <PublicWorkout /> */}
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
             {/* <ProgressMenu /> */}
@@ -248,16 +266,16 @@ const Dashboard = () => {
               className={classes.centerInput}
             >
               <Autocomplete
-                id="exerciseChart"
+                id='exerciseChart'
                 options={allExercisesByName}
-                getOptionLabel={option => option}
+                getOptionLabel={(option) => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
                 style={{ width: 400 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Choose your Exercise"
-                    variant="outlined"
+                    label='Choose your Exercise'
+                    variant='outlined'
                   />
                 )}
               />
@@ -266,7 +284,6 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-      
     </Container>
   );
 };
