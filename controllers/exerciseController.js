@@ -1,61 +1,81 @@
-const db = require("../model");
-
-// Exercise = exerciseName 'string', sets 'Number', repetitions Number, Weight, Number, Data Data, user_Id
+const Exercise = require('../model/ExerciseSchema.js');
 
 module.exports = {
   createExercises: async (req, res) => {
-    const { exerciseName, sets, repetitions, weight, date } = req.body;
+    const {
+      exerciseName,
+      setTotal,
+      repetitionsCompletedPerSet,
+      weightUsedPerSet,
+      exerciseDate,
+    } = req.body;
+
     try {
-      const newExercise = await db.Exercise.create({
+      let newExercise = new Exercise({
         exerciseName,
-        sets,
-        repetitions,
-        weight,
-        date,
+        setTotal,
+        repetitionsCompletedPerSet,
+        weightUsedPerSet,
+        exerciseDate,
         user_id: req.user._id,
       });
-      req.user.Exercise.push(newExercise._id);
-      await req.user.save();
-      res.json(newExercise);
+
+      res.json(await newExercise.save());
     } catch (e) {
-      console.log("L:22 exerciseController", e);
-      res.status(401).json(e);
+      console.log('L:22 exerciseController', e.message);
+
+      res.status(500).json(e);
     }
   },
   getAllExercisesByUserId: async (req, res) => {
-    const id = req.params.id;
+    const id = req.user._id;
+
     try {
-      res.json(await db.Exercise.find({user_id: id}));
-    }catch (e) {
+      res.json(await Exercise.find({ user_id: id }));
+    } catch (e) {
       console.log('L: 30 exerciseController', e);
-      res.status(401).json(e);
+      res.status(500).json(e);
     }
   },
   updateExercisesByExerciseId: async (req, res) => {
     try {
-      const { exerciseName, sets, repetitions, weight, date } = req.body;
-      res.json(await db.Exercise.findByIdAndUpdate(req.params.id, {
+      const {
         exerciseName,
-        sets,
-        repetitions,
-        weight,
-        date,
-        user_id: req.user._id,
-      }, {
-        new: true,
-      }));
-    }catch (e) {
+        setTotal,
+        repetitionsCompletedPerSet,
+        weightUsedPerSet,
+        exerciseDate,
+      } = req.body;
+
+      res.json(
+        await Exercise.findByIdAndUpdate(
+          req.user._id,
+          {
+            exerciseName,
+            setTotal,
+            repetitionsCompletedPerSet,
+            weightUsedPerSet,
+            exerciseDate,
+            user_id: req.user._id,
+          },
+          {
+            new: true,
+          }
+        )
+      );
+    } catch (e) {
       console.log('L: 48 exerciseController', e);
-      res.status(401).json(e);
+      res.status(500).json(e);
     }
   },
-  deleteExercise: async (req, res) => {
-    try {
-      console.log('Exercise Deleted Successfully');
-      res.json(await db.Exercise.findByIdAndDelete(req.params.id));
-    } catch (e) {
-      console.log('L: 60 exerciseController', e);
-      res.status(401).json(e);
-    }
-  }
+  // TODO: -> Fix Delete Logic
+  // deleteExercise: async (req, res) => {
+  //   try {
+  //     console.log('Exercise Deleted Successfully');
+  //     res.json(await Exercise.findByIdAndDelete(req.params.id));
+  //   } catch (e) {
+  //     console.log('L: 60 exerciseController', e);
+  //     res.status(500).json(e);
+  //   }
+  // },
 };
