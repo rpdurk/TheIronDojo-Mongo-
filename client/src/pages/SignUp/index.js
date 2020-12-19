@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useCreateUser } from './SignUpHooks';
+import { GoogleSignUpButton } from '../common/components/GoogleSignUpButton';
 
 function Copyright() {
   return (
@@ -122,16 +123,7 @@ export default function SignUp() {
           >
             Sign Up
           </Button>
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.google}
-            href='http://localhost:3001/auth/google'
-          >
-            Sign Up With Google
-          </Button>
+          <GoogleSignUpButton />
           <Grid container>
             <Grid item>
               <Link href='/' variant='body2'>

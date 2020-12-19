@@ -153,6 +153,7 @@ const Dashboard = () => {
           headers: { authorization: token },
         })
         .then((res) => {
+
           console.log(res);
         });
 
