@@ -16,6 +16,7 @@ import { useFetchUser } from './SignInHooks';
 import { useSelector } from 'react-redux';
 import { useUtils } from '../common';
 import { setUserId, validCredentials } from '../User/UserReducer';
+import { GoogleLoginButton } from '../common/components/GoogleLoginButton';
 
 function Copyright() {
   return (
@@ -100,7 +101,7 @@ export default function SignInSide() {
     // }, 1500);
     // Dispatch via Axios
   };
-
+  console.log(process.env.BASE_API_URL);
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -170,17 +171,7 @@ export default function SignInSide() {
               </Button>
             </Link>
             <Link>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.google}
-                //TODO: make axios call. Fix URL for dev and Prod
-                href="http://localhost:3001/auth/google"
-              >
-                Sign In With Google
-              </Button>
+              <GoogleLoginButton />
             </Link>
 
             <Grid container>
