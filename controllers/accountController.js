@@ -5,10 +5,9 @@ module.exports = {
     const id = req.user._id;
     try {
       res.json(await db.User.findOne({ _id: id }));
-      // console.log(res);
     } catch (e) {
       console.log('accountController getUserData', e);
-      res.status(401).json(e);
+      res.status(500).json(e);
     }
   },
 };

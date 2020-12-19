@@ -46,8 +46,6 @@ const PublicWorkoutCard = ({ history }) => {
     try {
       axios.get(`/api/workout`).then((res) => {
         console.log('this is res.data', res.data);
-        // TODO: Come back to this when Log/Workout addition
-        // setTopFiveWorkouts();
       });
     } catch (error) {
       console.log(error);

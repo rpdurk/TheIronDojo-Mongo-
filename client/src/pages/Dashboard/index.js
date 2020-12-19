@@ -140,7 +140,7 @@ const Dashboard = () => {
 
       axios
         .get(`/api/account/details`, {
-          headers: { authorization: localStorage.getItem('token') },
+          headers: { authorization: token },
         })
         .then((res) => {
           localStorage.setItem('userDetails', JSON.stringify(res.data));
@@ -150,7 +150,7 @@ const Dashboard = () => {
       // getUserDetails();
       axios
         .get(`/api/account/details`, {
-          headers: { authorization: localStorage.getItem('token') },
+          headers: { authorization: token },
         })
         .then((res) => {
           console.log(res);
