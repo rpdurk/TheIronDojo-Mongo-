@@ -17,9 +17,9 @@ import { GoogleSignUpButton } from '../common/components/GoogleSignUpButton';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant='body2' color='textSecondary' align='center'>
       {'Copyright © '}
-      <Link color="inherit" href="#">
+      <Link color='inherit' href='#'>
         Strength App
       </Link>{' '}
       {new Date().getFullYear()}
@@ -28,7 +28,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -57,64 +57,66 @@ export default function SignUp() {
   // Get Values
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // console.log(useCreateUser());
   const handleSaveUser = useCreateUser();
 
-  // TODO: Implent more fields
   // Submits Email and Password
-  const onSubmit = () => {
-    handleSaveUser({ email, password });
+  const onSubmit = async () => {
+    try {
+      let determination = await handleSaveUser({ email, password });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 required
                 fullWidth
-                id="Email"
-                label="Email"
-                name="Email"
-                autoComplete="Email"
-                onChange={e => {
+                id='Email'
+                label='Email'
+                name='Email'
+                autoComplete='Email'
+                onChange={(e) => {
                   setEmail(e.target.value);
                 }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={e => {
+                name='password'
+                label='Password'
+                type='password'
+                id='password'
+                autoComplete='current-password'
+                onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
             </Grid>
           </Grid>
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             className={classes.submit}
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               onSubmit();
             }}
@@ -124,7 +126,7 @@ export default function SignUp() {
           <GoogleSignUpButton />
           <Grid container>
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href='/' variant='body2'>
                 Already have an account? Sign In
               </Link>
             </Grid>

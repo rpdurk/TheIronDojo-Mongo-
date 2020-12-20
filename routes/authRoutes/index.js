@@ -14,6 +14,7 @@ router.get('/userid/:email', getUserDetails);
 
 // /auth/signin
 router.post('/signin', signInMiddleware, signInApi);
+// /auth/signin
 router.post('/signup', signUpApi);
 
 module.exports = router;

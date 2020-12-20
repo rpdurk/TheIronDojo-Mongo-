@@ -47,6 +47,7 @@ const PublicWorkoutCard = ({ history }) => {
     try {
       axios.get(`/api/workout`).then((res) => {
         console.log('this is res.data', res.data);
+
         const workoutArray = [];
         for(let i = 0; i < 5; i++) {
           workoutArray.push(res.data[i]);

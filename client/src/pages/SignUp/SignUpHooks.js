@@ -8,19 +8,22 @@ export const useCreateUser = () => {
   const dispatch = useDispatch();
 
   const handleSaveUser = (formValues) => {
-
-    console.log(formValues);
-
-    axios.post('/auth/signup', formValues).then((res) => {
-
-      console.log('response 👇');
-      console.log(res.data);
-
-      // SAve user ID and token in localStorage
-      dispatch(setViewerToken(res.data));
-
-      history.push('/dashboard');
-    });
+    try {
+      axios.post('/auth/signup', formValues).then(({ data }) => {
+        console.log('response 👇');
+        if (data.error) {
+          console.log(`yes errors`, data);
+          // TODO: Dispatch error
+        } else {
+          console.log(`no errors`);
+          // SAve user ID and token in localStorage
+          dispatch(setViewerToken(data));
+          history.push('/dashboard');
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return handleSaveUser;

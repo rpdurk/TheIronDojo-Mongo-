@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/UserSchema');
 
-const tokenForUser = id => {
+const tokenForUser = (id) => {
   return jwt.sign(
     {
       sub: id,
@@ -13,7 +13,6 @@ const tokenForUser = id => {
 
 module.exports = {
   signInApi: (req, res) => {
-    console.log('HEEEEEEYYYYYYY');
     const user = User.findByEmail(req.body.email);
     res.json(tokenForUser(req.user.id));
   },
@@ -37,12 +36,19 @@ module.exports = {
 
   signUpApi: async (req, res) => {
     const { email, password } = req.body;
+
     try {
-      const user = await User.create({ email, password });
-      res.json(tokenForUser(user._id));
-    } catch (e) {
-      console.log(e);
-      res.status(400).json(e);
+      // Check for duplicates
+      const test = await User.findOne({ email: email });
+      console.log(test);
+      if (!test) {
+        const user = await User.create({ email, password });
+        res.json(tokenForUser(user._id));
+      } else {
+        res.json({ error: true, message: `User already exists` });
+      }
+    } catch (error) {
+      res.status(500).json(error.message);
     }
   },
 };
