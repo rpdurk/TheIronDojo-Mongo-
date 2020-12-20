@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme =>
 const GoogleSignUpButton = () => {
   const classes = useStyles({});
 
-  console.log(process.env.BASE_API_URL);
+  // console.log(process.env.BASE_API_URL);
 
   return (
     <a href={`/auth/google`} className={classes.button}>

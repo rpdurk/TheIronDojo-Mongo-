@@ -9,6 +9,7 @@ import {
   Button,
   Box,
   Icon,
+  Typography,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useUtils } from "../common";
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    // alignItems: "center",
   },
   paper: {
     paddingTop: theme.spacing(4),
@@ -172,9 +173,10 @@ export default function CreateWorkout() {
   }, []);
   return (
     <Container maxWidth="xl" className={classes.container}>
-      <Box border={1} borderRadius={16} className={classes.header}>
-        <h1>Create Workout</h1>
-      </Box>
+
+<Typography component="h2" variant="h6" color="primary" gutterBottom align="Left">
+    Create a New Workout
+    </Typography>
       <Container className={classes.paper} component={Paper}>
         <Box>
           {workoutNameErr ? (
@@ -238,7 +240,7 @@ export default function CreateWorkout() {
           );
         })}
       </Container>
-      <Box>
+      <Box align="center">
       {pushSuccess ? (
             <Alert className={classes.alert} severity="success">
               Saved!
