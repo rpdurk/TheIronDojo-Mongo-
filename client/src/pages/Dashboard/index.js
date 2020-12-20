@@ -258,7 +258,7 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
-        {/* <PublicWorkout /> */}
+         <PublicWorkout />
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
             {/* <ProgressMenu /> */}

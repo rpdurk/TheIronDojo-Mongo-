@@ -36,6 +36,7 @@ const PublicWorkoutCard = ({ history }) => {
   // const [workoutName, setWorkoutName] = useState([])
   // const [exerciseName, setExerciseName] = useState([])
   const [topFiveWorkouts, setTopFiveWorkouts] = useState([]);
+  const [users, setUsers] = useState(['Jill', 'Jack', 'Jane', 'John', 'Joe']);
 
   // The useEffect hook is very similar to componentDidMount,
   // this will run when the component is mounted
@@ -46,11 +47,32 @@ const PublicWorkoutCard = ({ history }) => {
     try {
       axios.get(`/api/workout`).then((res) => {
         console.log('this is res.data', res.data);
+
+        const workoutArray = [];
+        for(let i = 0; i < 5; i++) {
+          workoutArray.push(res.data[i]);
+        }
+        // axios
+        //     .get("https://randomuser.me/api/?results=5")
+        //     .then(response => {
+        //       const userArray = [];
+        //       userArray.push(response.data.results);
+
+
+
+        console.log('workoutArray',workoutArray);
+        // console.log(userArray);
+        // setUsers(userArray);
+        setTopFiveWorkouts(workoutArray);
+        console.log(users)
+            // })
+
       });
     } catch (error) {
       console.log(error);
     }
   }, []);
+
 
   return (
     <Grid>
@@ -61,14 +83,17 @@ const PublicWorkoutCard = ({ history }) => {
         alignItems='center'
         spacing={3}
       >
+
         {topFiveWorkouts.length !== 0
-          ? topFiveWorkouts.map((workout) => {
-              console.log(workout);
+          ? topFiveWorkouts.map((workout, index) => {
+
+              // console.log(workout);
               return (
                 <Grid item xs={2}>
                   <Paper className={classes.paper}>
                     Workout:<div>{workout.workoutName}</div>
-                    Date: <div>{workout.date}</div>
+                    Name:<div>{users[index]}</div>
+
                   </Paper>
                 </Grid>
               );
