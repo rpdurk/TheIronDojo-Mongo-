@@ -11,9 +11,9 @@ router
   // creates an account
   // .post(accountController.createAccounts)
   // Gets all accounts by user Id
-  .get(accountController.getUserData);
-// Updates a account by account Id
-// .patch(accountController.updateaccountsByaccountId)
+  .get(accountController.getUserData)
+  // Updates a account by account Id
+  .patch(accountController.updateByUserId);
 // Deletes a account by account Id
 // .delete(accountController.deleteaccount)
 

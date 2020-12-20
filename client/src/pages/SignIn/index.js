@@ -16,13 +16,14 @@ import { useFetchUser } from './SignInHooks';
 import { useSelector } from 'react-redux';
 import { useUtils } from '../common';
 import { setUserId, validCredentials } from '../User/UserReducer';
+import { GoogleLoginButton } from '../common/components/GoogleLoginButton';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="#">
-        Strength App
+        Iron Dojo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -159,28 +160,21 @@ export default function SignInSide() {
             {credentialsError ? 'Invalid Credentials' : ''}
             <Link>
               <Button
-                type="button"
+                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={e => onSubmit()}
+                onClick={e => {
+                  e.preventDefault();
+                  onSubmit();
+                }}
               >
                 Sign In
               </Button>
             </Link>
             <Link>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.google}
-                //TODO: make axios call. Fix URL for dev and Prod
-                href="http://localhost:3001/auth/google"
-              >
-                Sign In With Google
-              </Button>
+              <GoogleLoginButton />
             </Link>
 
             <Grid container>
