@@ -19,6 +19,7 @@ import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import PublicWorkout from '../common/components/PublicWorkout';
+import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
 import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
@@ -222,16 +223,7 @@ const Dashboard = () => {
       </Container>
       <Grid container spacing={3}>
         {/* Weekly Weight */}
-        {/* <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            <h4>Weekly Volume</h4>
-            {weeklyVolume === null ? (
-              <LinearProgress />
-            ) : (
-              <h1>{weeklyVolume} lbs</h1>
-            )}
-          </Paper>
-        </Grid> */}
+        {/* <WeeklyVolumeNumber/> */}
         {/* Weekly Lifts */}
         {/* <Grid item xs={4}>
           <Paper className={classes.paper}>

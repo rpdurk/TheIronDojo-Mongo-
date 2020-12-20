@@ -164,8 +164,8 @@ const LogWorkout = () => {
     // Loop through exercise inputs and get data
     for (let i = 0; i <= counter; i++) {
       let exerciseName = document.getElementById(`exerciseName${i}`).innerText;
-      let sets = document.getElementById(`sets${i}`).value;
-      let repetitions = document.getElementById(`reps${i}`)
+      let setTotal = document.getElementById(`sets${i}`).value;
+      let repetitionsCompletedPerSet = document.getElementById(`reps${i}`)
         .value;
       let weightUsedPerSet = document.getElementById(`weight${i}`).value;
       let exerciseDate = document.getElementById('workoutDate').value;
