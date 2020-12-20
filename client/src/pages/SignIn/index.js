@@ -23,7 +23,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="#">
-        Strength App
+        Iron Dojo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -101,7 +101,7 @@ export default function SignInSide() {
     // }, 1500);
     // Dispatch via Axios
   };
-  console.log(process.env.BASE_API_URL);
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -160,12 +160,15 @@ export default function SignInSide() {
             {credentialsError ? 'Invalid Credentials' : ''}
             <Link>
               <Button
-                type="button"
+                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={e => onSubmit()}
+                onClick={e => {
+                  e.preventDefault();
+                  onSubmit();
+                }}
               >
                 Sign In
               </Button>
