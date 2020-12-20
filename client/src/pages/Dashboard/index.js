@@ -8,7 +8,7 @@ import {
   Container,
   Grid,
   Paper,
-  LinearProgress,
+  // LinearProgress,
   TextField,
   Box,
   FormControl,
@@ -19,8 +19,8 @@ import { useUtils } from '../common';
 import ProgressChart from '../common/components/Charts/ProgressChart';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import PublicWorkout from '../common/components/PublicWorkout';
-import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
-import { current } from '@reduxjs/toolkit';
+// import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
+// import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -68,9 +68,9 @@ const Dashboard = () => {
   const token = useSelector(state => state.viewer.token);
 
   // Component State
-  const [weeklyVolume, setWeeklyVolume] = useState(0);
-  const [weeklyLifts, setWeeklyLifts] = useState(0);
-  const [weeklyExercises, setWeeklyExercises] = useState(0);
+  // const [weeklyVolume, setWeeklyVolume] = useState(0);
+  // const [weeklyLifts, setWeeklyLifts] = useState(0);
+  // const [weeklyExercises, setWeeklyExercises] = useState(0);
   const [allExercises, setAllExercises] = useState([]); // Stores exercises
   const [selectedExercise, setSelectedExercise] = useState('');
   const [reRender, setReRender] = useState(true); // Boolean For useEffect -> To Prevent Re Renders

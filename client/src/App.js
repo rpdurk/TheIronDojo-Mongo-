@@ -12,7 +12,7 @@ import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import CreateWorkout from './pages/CreateWorkout';
 import LogWorkout from './pages/LogWorkout';
-import Progress from './pages/Progress';
+// import Progress from './pages/Progress';
 import Account from './pages/Account';
 import theme from './utils/Theme';
 import { useSelector } from 'react-redux';

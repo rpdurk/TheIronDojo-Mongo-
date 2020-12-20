@@ -29,6 +29,7 @@ const useStyles = makeStyles({
     padding: 20,
   },
 });
+
 const WeeklyVolumeNumber = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -43,13 +44,37 @@ const WeeklyVolumeNumber = () => {
   // map through object so each exercise is listed with sets and repetitions
   // multiply sets repetitions and weight used for each exercise
   // sum last 7 workouts
+  const calculateVolumePerExercise = (exercises) => {
+    let singleExerciseArray = [];
+    exercises.map(exercise => {
+      const totalPerVolumeExercise =
+        exercise.setTotal *
+        exercise.repetitionsCompletedPerSet *
+        exercise.weightUsedPerSet;
+      let exerciseName = exercise.exerciseName;
+      let exerciseObj = { [exerciseName]: totalPerVolumeExercise };
+      singleExerciseArray.push(exerciseObj);
+    });
+    // console.log(singleExerciseArray);
+    return singleExerciseArray;
+  };
 
-  const makeCalculateWeeklyVolume = () => {
-    // empty object to hold results axios call
-    let currentExerciseArrayObj = {};
+  // console.log(calculateVolumePerExercise(exercises));
 
-
-  }
+ const calculateWeeklyVolume = (volumePerExercise) => {
+  let totalWeeklyVolume = [];
+ let volumeTotal = 0; 
+ volumePerExercise.map(exercise => {
+    for (const key in exercise) {
+      // console.log(`${key}: ${exercise[key]}`);
+      volumeTotal += exercise[key];
+      // console.log(volumeTotal);
+    }
+  });
+  // console.log(volumeTotal);
+  return volumeTotal;
+ }
+//  calculateWeeklyVolume(calculateVolumePerExercise(exercises));
 
   // The useEffect hook is very similar to componentDidMount,
   // this will run when the component is mounted

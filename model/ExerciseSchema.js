@@ -22,7 +22,8 @@ const ExerciseSchema = new Schema({
   },
   // if time, add rest, time, or other options.
   user_id: { type: Schema.Types.ObjectId, ref: 'User' },
-});
+}, { timestamps: true });
+
 
 const Exercise = model('Exercise', ExerciseSchema);
 

@@ -19,7 +19,7 @@ const BiometricSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'User'
     },
-})
+}, { timestamps: true });
 
 const Biometric = model('Biometric', BiometricSchema);
 
