@@ -12,6 +12,7 @@ import {
   TextField,
   Box,
   FormControl,
+  Typography,
 } from '@material-ui/core/';
 import { setUserId, setUserDetails } from '../User/UserReducer';
 import { setViewerToken } from '../Viewer/ViewerReducer';
@@ -23,8 +24,8 @@ import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    marginTop: theme.spacing(5),
+    paddingLeft: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(2),
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     marginBottom: theme.spacing(6),
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -205,11 +206,14 @@ const Dashboard = () => {
   ];
 
   return (
-    <Container maxWidth="xl" className={classes.container}>
+    <Container maxWidth='xl' className={classes.container}>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>
+      Dashboard
+    </Typography>
       <Container className={classes.header}>
-        <Box border={1} borderRadius={16} className={classes.headerPadding}>
+        {/* <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
-        </Box>
+        </Box> */}
       </Container>
       <Grid container spacing={3}>
         {/* Weekly Weight */}
@@ -243,7 +247,7 @@ const Dashboard = () => {
         {/* {weeklyVolume === null ? ( */}
         {/* <LinearProgress /> */}
         {/* ) : (
-               <h1>{weeklyExercises} lbs</h1>
+        <h1>{weeklyExercises} lbs</h1>
              )} */}
         {/* </Paper>
         </Grid>  */}
@@ -251,11 +255,13 @@ const Dashboard = () => {
         <PublicWorkout />
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
+            <h3 align="left" paddingLeft={30}>Weekly Analysis</h3>
+            
             {/* <ProgressMenu /> */}
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
-            >
+              >
               <Autocomplete
                 id="exerciseChart"
                 options={allExercisesByName}

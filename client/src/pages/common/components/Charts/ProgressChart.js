@@ -9,10 +9,12 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import Typography from '@material-ui/core/Typography';
 
 const ProgressChart = ({ data }) => {
   return (
     <ResponsiveContainer>
+
       <LineChart
         width={500}
         height={300}
@@ -23,6 +25,7 @@ const ProgressChart = ({ data }) => {
           left: 20,
           bottom: 5,
         }}
+        nameKey="name"
       >
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis dataKey='date' />

@@ -16,6 +16,9 @@ import Progress from './pages/Progress';
 import Account from './pages/Account';
 import theme from './utils/Theme';
 import { useSelector } from 'react-redux';
+import {
+  NavLink
+} from 'react-router-dom'; 
 
 function App() {
   let viewer = useSelector(state => state.viewer);

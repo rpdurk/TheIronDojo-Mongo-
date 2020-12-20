@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { useUtils } from '../common';
 import { setUserId } from '../User/UserReducer';
 import uniqid from 'uniqid';
-import { Grid, InputAdornment, OutlinedInput } from '@material-ui/core';
+import { Grid, InputAdornment, OutlinedInput ,Typography} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    paddingTop: theme.spacing(4),
+    marginTop: theme.spacing(5),
+
     paddingBottom: theme.spacing(4),
   },
   paper: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     marginBottom: theme.spacing(7),
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -245,10 +246,11 @@ const LogWorkout = () => {
 
   return (
     <Container maxWidth='xl' className={classes.container}>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom align="Left">
+    Start Workout
+    </Typography>
       <Container className={classes.header}>
-        <Box border={1} borderRadius={16} className={classes.headerPadding}>
-          <h1>Log Workout</h1>
-        </Box>
+        
       </Container>
       <Paper className={classes.paper}>
         {inputError ? (
