@@ -29,4 +29,14 @@ module.exports = {
       res.status(500).json(e);
     }
   },
+  deleteAccount: async (req, res) => {
+    const id = req.user._id;
+    console.log(req.user);
+    try {
+      res.json(await db.User.deleteOne({ _id: id }));
+    } catch (e) {
+      console.log('accountController deleteAccount', e);
+      res.status(500).json(e);
+    }
+  },
 };
