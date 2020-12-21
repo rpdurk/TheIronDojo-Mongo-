@@ -22,13 +22,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import PublicWorkout from '../common/components/PublicWorkout';
 import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
 import VolByMuscleChart from '../common/components/Charts/VolByMuscleChart';
+import MostCompletedExercise from '../common/components/Charts/MostCompletedExercise';
+import TotalWorkoutsPerWeek from '../common/components/Charts/TotalWorkoutsPerWeek';
 // import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(5),
     paddingLeft: theme.spacing(4),
-    
   },
   paper: {
     padding: theme.spacing(2),
@@ -56,9 +57,12 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-  input:{
-    padding: theme.spacing(2)
-  }
+  input: {
+    padding: theme.spacing(2),
+  },
+  bigNumbers: {
+    margin: '0 3rem',
+  },
 }));
 
 const Dashboard = () => {
@@ -141,36 +145,34 @@ const Dashboard = () => {
         }
       }, 300);
 
-      // axios
-      //   .get(`/api/account/details`, {
-      //     headers: { authorization: token },
-      //   })
-      //   .then((res) => {
-      //     localStorage.setItem('userDetails', JSON.stringify(res.data));
-      //     dispatch(setUserDetails(res.data));
-      //   });
-
-      console.log(`this is the userId ${userId}`);
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: token },
+        })
+        .then((res) => {
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
+        });
 
       // Get Workout List from Backend
-      // axios
-      //   .get(`/api/exercise`, {
-      //     headers: { authorization: token },
-      //   })
-      //   .then(({ data }) => {
-      //     // Save Full Object to state
-      //     setAllExercises(data);
+      axios
+        .get(`/api/exercise`, {
+          headers: { authorization: token },
+        })
+        .then(({ data }) => {
+          // Save Full Object to state
+          setAllExercises(data);
 
-      //     // Get Names and IDs from workouts
-      //     const temp = data.map((exercise) => exercise.exerciseName);
-      //     // const resWorkoutIds = data.map((workout) => workout.id);
+          // Get Names and IDs from workouts
+          const temp = data.map((exercise) => exercise.exerciseName);
+          // const resWorkoutIds = data.map((workout) => workout.id);
 
-      //     let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
+          let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
 
-      //     setAllExercisesByName(resExerciseNames);
+          setAllExercisesByName(resExerciseNames);
 
-      //     setReRender(false);
-      //   }); // Axios Get
+          setReRender(false);
+        }); // Axios Get
     }
 
     makeChartData();
@@ -212,19 +214,24 @@ const Dashboard = () => {
       <Typography component='h2' variant='h6' color='primary' gutterBottom>
         Dashboard
       </Typography>
-      <Container className={classes.header}>
-        {/* <Box border={1} borderRadius={16} className={classes.headerPadding}>
-          <h1>Dashboard</h1>
-        </Box> */}
-      </Container>
-      <Grid container spacing={3}>
-        <WeeklyVolumeNumber />
-        <Grid item xs={10} spacing={0}>
+
+      <Grid container>
+        <Grid className={classes.bigNumbers} item xs={1}>
+          <WeeklyVolumeNumber />
+        </Grid>
+        <Grid className={classes.bigNumbers} item xs={1}>
+          <MostCompletedExercise />
+        </Grid>
+        <Grid className={classes.bigNumbers} item xs={1}>
+          <TotalWorkoutsPerWeek />
+        </Grid>
+      </Grid>
+
+      <Grid spacing={2} container>
+        <Grid item xs={8}>
           <Paper className={fixedHeightPaper}>
-            <h3 align='left' paddingLeft={30}>
-              Weekly Analysis
-            </h3>
-            {/* <ProgressMenu /> */}
+            <h3 align='left'>Weekly Analysis</h3>
+
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
@@ -249,8 +256,10 @@ const Dashboard = () => {
               data={tableData.length !== 0 ? tableData : data}
             />
           </Paper>
+          <Grid className={classes.bigNumbers} item xs={1}>
+            <VolByMuscleChart />
+          </Grid>
         </Grid>
-        <VolByMuscleChart />
         <Grid item xs={2}>
           <PublicWorkout />
         </Grid>

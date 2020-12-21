@@ -28,12 +28,8 @@ const useStyles = makeStyles({
 
 const WeeklyVolumeNumber = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  // eslint-disable-next-line react/react-in-jsx-scope
   const [weeklyVolume, setWeeklyVolume] = useState([]);
-  const [lastSevenDaysOfExercise, setLastSevenDays] = useState([]);
-  // Redux ⚛ Get userId
-  const userId = useSelector((state) => state.user.curUserId);
+
   // Redux ⚛ Get token
   const token = useSelector((state) => state.viewer.token);
 
@@ -48,49 +44,20 @@ const WeeklyVolumeNumber = () => {
       let exerciseObj = { [exerciseName]: totalPerVolumeExercise };
       singleExerciseArray.push(exerciseObj);
     });
-    console.log(singleExerciseArray);
     return singleExerciseArray;
   };
 
   const calculateWeeklyVolume = (volumePerExercise) => {
-    let totalWeeklyVolume = [];
     let volumeTotal = 0;
     volumePerExercise.map((exercise) => {
       for (const key in exercise) {
-        // console.log(`${key}: ${exercise[key]}`);
         volumeTotal += exercise[key];
-        console.log(volumeTotal);
       }
     });
     setWeeklyVolume(volumeTotal);
-    // console.log(volumeTotal);
-    // return volumeTotal;
   };
 
-  // The useEffect hook is very similar to componentDidMount,
-  // this will run when the component is mounted
   useEffect(() => {
-    console.log('This is the Weekly Volume Component');
-    // get userID from account details
-    // axios
-    //   .get(`/api/account/details`, {
-    //     headers: { authorization: localStorage.getItem('token') },
-    //   })
-    //   .then((res) => {
-    //     // console.log(res);
-    //   });
-    // console.log(`this is the userId ${userId}`);
-    // Get workouts on component loading
-    // try {
-    //   axios.get(`/api/workout/${userId}`, {
-    //     headers: { authorization: token }
-    //   })
-    //     .then((res) => {
-    //       console.log('this is res.data', res.data);
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    // }
     // get last seven days of exercise
     try {
       axios
@@ -99,9 +66,7 @@ const WeeklyVolumeNumber = () => {
         })
         .then(({ data }) => {
           // Save Full Object to state
-          console.log(`hi hello `, data);
           calculateWeeklyVolume(calculateVolumePerExercise(data));
-          setLastSevenDays(data);
         });
     } catch (error) {
       console.log(`err`, error);
