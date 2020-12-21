@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, makeStyles, Box } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import Profile from './Profile';
 import ProfileDetails from './ProfileDetails';
 import { useSelector } from 'react-redux';

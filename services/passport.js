@@ -94,7 +94,7 @@ const jwtOptions = {
 
 //jwt strategy
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtToken, done) => {
-  console.log('SEEE MEEEEE');
+  // console.log('SEEE MEEEEE');
   // { sub: idOfTheUser, iat: timeThatThisTokenWasCreated }
   // console.log('THIS ONE!!!', jwtToken);
   let user;
