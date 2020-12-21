@@ -137,17 +137,25 @@ const Dashboard = () => {
         if (incomingUserToken) {
           dispatch(setViewerToken(incomingUserToken));
           localStorage.setItem('token', incomingUserToken);
+          axios
+            .get(`/api/account/details`, {
+              headers: { authorization: localStorage.getItem('token') },
+            })
+            .then(res => {
+              localStorage.setItem('userDetails', JSON.stringify(res.data));
+              dispatch(setUserDetails(res.data));
+            });
+        } else if (token) {
+          axios
+            .get(`/api/account/details`, {
+              headers: { authorization: token },
+            })
+            .then(res => {
+              localStorage.setItem('userDetails', JSON.stringify(res.data));
+              dispatch(setUserDetails(res.data));
+            });
         }
       }, 300);
-
-      axios
-        .get(`/api/account/details`, {
-          headers: { authorization: token },
-        })
-        .then(res => {
-          localStorage.setItem('userDetails', JSON.stringify(res.data));
-          dispatch(setUserDetails(res.data));
-        });
 
       console.log(`this is the userId ${userId}`);
 
@@ -251,7 +259,7 @@ const Dashboard = () => {
         </Grid>
         <VolByMuscleChart />
         <Grid item xs={2}>
-          <PublicWorkout />
+          {/* <PublicWorkout /> */}
         </Grid>
       </Grid>
     </Container>

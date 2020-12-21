@@ -1,4 +1,4 @@
-                                                          import React from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { useHistory, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -129,12 +128,12 @@ const useStyles = makeStyles(theme => ({
   active: {
     color: 'black',
     '& $title': {
-      fontWeight: theme.typography.fontWeightMedium
+      fontWeight: theme.typography.fontWeightMedium,
     },
     '& $icon': {
-      color: theme.palette.primary.main
-    }
-  }
+      color: theme.palette.primary.main,
+    },
+  },
 }));
 
 const PersistentDrawerLeft = props => {
@@ -146,8 +145,7 @@ const PersistentDrawerLeft = props => {
   const history = useHistory();
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    localStorage.clear();
     dispatch(setViewerToken(null));
     dispatch(signOutUser());
     history.push('/');
@@ -161,9 +159,7 @@ const PersistentDrawerLeft = props => {
     setOpen(false);
   };
 
-  const handleMenu =()=>{
-
-  }
+  const handleMenu = () => {};
 
   const menuItems = [
     {
@@ -225,7 +221,7 @@ const PersistentDrawerLeft = props => {
         <div className={classes.spacer}></div>
       </AppBar>
       <Drawer
-       variant="permanent"
+        variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
@@ -239,7 +235,11 @@ const PersistentDrawerLeft = props => {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
@@ -247,7 +247,12 @@ const PersistentDrawerLeft = props => {
           {menuItems.map(item => {
             const { text, icon, onClick } = item;
             return (
-              <ListItem button key={text} onClick={onClick} activeClassName={classes.active}>
+              <ListItem
+                button
+                key={text}
+                onClick={onClick}
+                activeClassName={classes.active}
+              >
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
