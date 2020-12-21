@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, makeStyles, Button } from '@material-ui/core';
 import Profile from './Profile';
 import ProfileDetails from './ProfileDetails';
-import { useSelector } from 'react-redux';
+import { createDispatchHook, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useUtils } from '../common';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { setUserDetails } from '../User/UserReducer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,18 +37,46 @@ const Account = () => {
     state = {};
   };
 
-  const handleDelete = async (req, res) => {
-    try {
-      await axios.delete('/api/account/details', {
-        headers: { authorization: token },
-      });
-      localStorage.clear();
-      remove();
-      history.push('/');
-    } catch (e) {
-      console.log('handleDelete', e);
-    }
+  const handleDelete = (req, res) => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+            try {
+              await axios.delete('/api/account/details', {
+                headers: { authorization: token },
+              });
+              localStorage.clear();
+              remove();
+              history.push('/');
+            } catch (e) {
+              console.log('handleDelete', e);
+            }
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => {
+            return;
+          },
+        },
+      ],
+    });
   };
+
+  useEffect(() => {
+    axios
+      .get(`/api/account/details`, {
+        headers: { authorization: token },
+      })
+      .then(res => {
+        localStorage.setItem('userDetails', JSON.stringify(res.data));
+        createDispatchHook(setUserDetails(res.data));
+      });
+  });
 
   return (
     <Container maxWidth="lg" className={classes.root}>
