@@ -6,18 +6,42 @@ import Paper from '@material-ui/core/Paper';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import axios from 'axios';
 import { setUserId } from '../../User/UserReducer';
+import Card from '@material-ui/core/Card';
+// import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import { FixedSizeList } from 'react-window';
 
+const fixedList = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    height: 400,
+    maxWidth: 300,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    // minWidth: 275,
+    maxWidth: 250,
+    maxHeight: 350,
+    margin: '10px 0',
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
-    transform: 'scale(0.8)',
+    // transform: 'scale(0.8)',
   },
   title: {
     fontSize: 14,
+    textAlign: 'center',
   },
   pos: {
     marginBottom: 12,
@@ -27,81 +51,104 @@ const useStyles = makeStyles({
     width: 220,
     padding: 20,
     display: 'inline-block',
-
-
+  },
+  media: {
+    height: 140,
   },
 });
-const PublicWorkoutCard = ({ history }) => {
-  // let userId = useSelector((state) => state.user.curUserId);
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  // eslint-disable-next-line react/react-in-jsx-scope
-  const bull = <span className={classes.bullet}>•</span>;
-  const [topFiveWorkouts, setTopFiveWorkouts] = useState([]);
-  const [users, setUsers] = useState(['Jill', 'Jack', 'Jane', 'John', 'Joe']);
 
-  // The useEffect hook is very similar to componentDidMount,
-  // this will run when the component is mounted
+const cardListStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
+  },
+  listSection: {
+    backgroundColor: 'inherit',
+    lineHeight: '0px',
+    padding: 0,
+    margin: 0,
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0,
+    margin: 0,
+    lineHeight: '0px',
+  },
+}));
+
+const PublicWorkoutCard = () => {
+  const classes = useStyles();
+  const listStyles = cardListStyles();
+  const fixedStyles = fixedList();
+
+  const [profiles, setProfiles] = useState([]);
+
   useEffect(() => {
     console.log('This is the PublicWorkout Component');
 
     // Get workouts on component loading
     try {
-      axios.get(`/api/workout`).then((res) => {
-        console.log('this is res.data', res.data);
+      axios.get(`/api/workout`).then(({ data }) => {
+        console.log('this is data', data);
+        let max = 5;
 
-        const workoutArray = [];
-        for(let i = 0; i < 5; i++) {
-          workoutArray.push(res.data[i]);
-        }
-        // axios
-        //     .get("https://randomuser.me/api/?results=5")
-        //     .then(response => {
-        //       const userArray = [];
-        //       userArray.push(response.data.results);
+        axios
+          .get('https://randomuser.me/api/?results=5')
+          .then(({ data: { results } }) => {
+            console.log(results);
 
+            const exercises = data.map((exercise, index) => {
+              const name = results[index].name.first;
+              const image = results[index].picture.large;
+              const exerciseList = exercise.exercise;
 
+              return index < max ? { exerciseList, name, image } : false;
+            });
 
-        console.log('workoutArray',workoutArray);
-        // console.log(userArray);
-        // setUsers(userArray);
-        setTopFiveWorkouts(workoutArray);
-        console.log(users)
-
-
+            setProfiles(exercises);
+          });
       });
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-
   return (
     <Grid>
-      <Grid
-        container
-        direction='row'
-        justify='space-evenly'
-        alignItems='center'
-        spacing={3}
-      >
-
-        {topFiveWorkouts.length !== 0
-          ? topFiveWorkouts.map((workout, index) => {
-
-              // console.log(workout);
-              return (
-                <Grid item xs={2}>
-                  <Paper className={classes.paper}>
-                    Name:<div>{users[index]}</div>
-                    Workout:<div>{workout.exercise[0]}</div>
-                    <FitnessCenterIcon/>
-                  </Paper>
-                </Grid>
-              );
-            })
-          : ''}
-      </Grid>
+      {profiles !== null && typeof profiles !== 'undefined'
+        ? profiles.map((person, index) => {
+            return (
+              <Card className={classes.root}>
+                <CardMedia
+                  className={classes.media}
+                  image={person.image}
+                  title={person.name}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant='h5' component='h2'>
+                    {person.name}
+                  </Typography>
+                  <Typography
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
+                  >
+                    <Typography variant='fluid'>Has worked on...</Typography>
+                    <List className={listStyles.root} subheader={<li />}>
+                      {person.exerciseList.map((exercise) => (
+                        <Typography>{exercise}</Typography>
+                      ))}
+                    </List>
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          })
+        : 'huh'}
     </Grid>
   );
 };

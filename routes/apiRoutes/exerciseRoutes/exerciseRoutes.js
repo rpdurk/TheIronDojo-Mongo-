@@ -18,9 +18,7 @@ router
 // .delete(exerciseController.deleteExercise);
 
 // at api/exercise/7
-router
-  .route('/7')
-  // get all exercises in the last 7 days and sort by ID
-  .get(exerciseController.getAllExercisesInLastSevenDaysByUserId)
+// get all exercises in the last 7 days and sort by ID
+router.get('/7', exerciseController.getAllExercisesInLastSevenDaysByUserId);
 
 module.exports = router;
