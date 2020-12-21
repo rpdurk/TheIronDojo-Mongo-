@@ -24,11 +24,10 @@ import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
 import VolByMuscleChart from '../common/components/Charts/VolByMuscleChart';
 // import { current } from '@reduxjs/toolkit';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     marginTop: theme.spacing(5),
     paddingLeft: theme.spacing(4),
-    
   },
   paper: {
     padding: theme.spacing(2),
@@ -56,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-  input:{
-    padding: theme.spacing(2)
-  }
+  input: {
+    padding: theme.spacing(2),
+  },
 }));
 
 const Dashboard = () => {
@@ -70,9 +69,9 @@ const Dashboard = () => {
   const incomingUserToken = location.pathname.split('/')[3];
 
   // Redux ⚛ Get userId
-  const userId = useSelector((state) => state.user.curUserId);
+  const userId = useSelector(state => state.user.curUserId);
   // Redux ⚛ Get token
-  const token = useSelector((state) => state.viewer.token);
+  const token = useSelector(state => state.viewer.token);
 
   const [allExercises, setAllExercises] = useState([]); // Stores exercises
   const [selectedExercise, setSelectedExercise] = useState('');
@@ -119,7 +118,7 @@ const Dashboard = () => {
     });
 
     let tempArray = [];
-    sorted.forEach((el) => {
+    sorted.forEach(el => {
       tempArray.push({ date: el[0], weight: el[1] });
     });
     setTableData(tempArray);
@@ -141,14 +140,14 @@ const Dashboard = () => {
         }
       }, 300);
 
-      // axios
-      //   .get(`/api/account/details`, {
-      //     headers: { authorization: token },
-      //   })
-      //   .then((res) => {
-      //     localStorage.setItem('userDetails', JSON.stringify(res.data));
-      //     dispatch(setUserDetails(res.data));
-      //   });
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: token },
+        })
+        .then(res => {
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
+        });
 
       console.log(`this is the userId ${userId}`);
 
@@ -208,8 +207,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <Container maxWidth='xl' className={classes.container}>
-      <Typography component='h2' variant='h6' color='primary' gutterBottom>
+    <Container maxWidth="xl" className={classes.container}>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>
         Dashboard
       </Typography>
       <Container className={classes.header}>
@@ -221,7 +220,7 @@ const Dashboard = () => {
         <WeeklyVolumeNumber />
         <Grid item xs={10} spacing={0}>
           <Paper className={fixedHeightPaper}>
-            <h3 align='left' paddingLeft={30}>
+            <h3 align="left" paddingLeft={30}>
               Weekly Analysis
             </h3>
             {/* <ProgressMenu /> */}
@@ -230,16 +229,16 @@ const Dashboard = () => {
               className={classes.centerInput}
             >
               <Autocomplete
-                id='exerciseChart'
+                id="exerciseChart"
                 options={allExercisesByName}
-                getOptionLabel={(option) => option}
+                getOptionLabel={option => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
                 style={{ width: 400 }}
-                renderInput={(params) => (
+                renderInput={params => (
                   <TextField
                     {...params}
-                    label='Choose your Exercise'
-                    variant='outlined'
+                    label="Choose your Exercise"
+                    variant="outlined"
                   />
                 )}
               />
