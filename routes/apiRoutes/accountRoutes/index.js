@@ -13,8 +13,8 @@ router
   // Gets all accounts by user Id
   .get(accountController.getUserData)
   // Updates a account by account Id
-  .patch(accountController.updateByUserId);
-// Deletes a account by account Id
-// .delete(accountController.deleteaccount)
+  .patch(accountController.updateByUserId)
+  // Deletes a account by account Id
+  .delete(accountController.deleteAccount);
 
 module.exports = router;
