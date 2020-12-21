@@ -49,7 +49,7 @@ const ProfileDetails = ({ className, ...rest }) => {
 
   const formFields = [
     {
-      size: 12,
+      size: 6,
       field: (
         <TextField
           name="firstName"
@@ -65,7 +65,7 @@ const ProfileDetails = ({ className, ...rest }) => {
       ),
     },
     {
-      size: 12,
+      size: 6,
       field: (
         <TextField
           name="lastName"
