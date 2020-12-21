@@ -35,15 +35,13 @@ const WeeklyVolumeNumber = () => {
   const dispatch = useDispatch();
   // eslint-disable-next-line react/react-in-jsx-scope
   const [weeklyVolume, setWeeklyVolume] = useState([]);
-   // Redux ⚛ Get userId
-   const userId = useSelector((state) => state.user.curUserId);
-   // Redux ⚛ Get token
-   const token = useSelector((state) => state.viewer.token);
+  // Redux ⚛ Get userId
+  const userId = useSelector((state) => state.user.curUserId);
+  // Redux ⚛ Get token
+  const token = useSelector((state) => state.viewer.token);
 
-  // call array of objects for last 7 days of exercises
-  // map through object so each exercise is listed with sets and repetitions
-  // multiply sets repetitions and weight used for each exercise
-  // sum last 7 workouts
+
+
   const calculateVolumePerExercise = (exercises) => {
     let singleExerciseArray = [];
     exercises.map(exercise => {
@@ -61,20 +59,20 @@ const WeeklyVolumeNumber = () => {
 
   // console.log(calculateVolumePerExercise(exercises));
 
- const calculateWeeklyVolume = (volumePerExercise) => {
-  let totalWeeklyVolume = [];
- let volumeTotal = 0; 
- volumePerExercise.map(exercise => {
-    for (const key in exercise) {
-      // console.log(`${key}: ${exercise[key]}`);
-      volumeTotal += exercise[key];
-      // console.log(volumeTotal);
-    }
-  });
-  // console.log(volumeTotal);
-  return volumeTotal;
- }
-//  calculateWeeklyVolume(calculateVolumePerExercise(exercises));
+  const calculateWeeklyVolume = (volumePerExercise) => {
+    let totalWeeklyVolume = [];
+    let volumeTotal = 0;
+    volumePerExercise.map(exercise => {
+      for (const key in exercise) {
+        // console.log(`${key}: ${exercise[key]}`);
+        volumeTotal += exercise[key];
+        // console.log(volumeTotal);
+      }
+    });
+    // console.log(volumeTotal);
+    return volumeTotal;
+  }
+  //  calculateWeeklyVolume(calculateVolumePerExercise(exercises));
 
   // The useEffect hook is very similar to componentDidMount,
   // this will run when the component is mounted
@@ -83,44 +81,49 @@ const WeeklyVolumeNumber = () => {
 
     // get userID from account details
     axios
-    .get(`/api/account/details`, {
-      headers: { authorization: localStorage.getItem('token') },
-    })
-    .then((res) => {
-      console.log(res);
-    });
+      .get(`/api/account/details`, {
+        headers: { authorization: localStorage.getItem('token') },
+      })
+      .then((res) => {
+        console.log(res);
+      });
     console.log(`this is the userId ${userId}`);
-    
+
     // Get workouts on component loading
     try {
       axios.get(`/api/workout/${userId}`, {
         headers: { authorization: token }
       })
-      .then((res) => {
-        console.log('this is res.data', res.data);
-      });
+        .then((res) => {
+          console.log('this is res.data', res.data);
+        });
     } catch (error) {
       console.log(error);
     }
-
-
-
-
+    // get last seven days of exercise
+    axios
+        .get(`/api/account/details`, {
+          headers: { authorization: token },
+        })
+        .then(res => {
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
+        });
   }, []);
 
   return (
- 
+
     <Grid item xs={4}>
-        <Paper className={classes.paper}>
-            <h4>Weekly Volume</h4>
-            {weeklyVolume === null ? (
-                <LinearProgress />
-            ) : (
-                    <h1>{weeklyVolume} lbs</h1>
-                )}
-        </Paper>
-    </Grid> 
-    );
+      <Paper className={classes.paper}>
+        <h4>Weekly Volume</h4>
+        {weeklyVolume === null ? (
+          <LinearProgress />
+        ) : (
+            <h1>{weeklyVolume} lbs</h1>
+          )}
+      </Paper>
+    </Grid>
+  );
 }
 
 export default WeeklyVolumeNumber;
