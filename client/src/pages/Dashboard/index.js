@@ -273,6 +273,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
+      <WeeklyVolumeNumber />
     </Container>
   );
 };
