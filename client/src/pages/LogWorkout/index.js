@@ -223,6 +223,7 @@ const LogWorkout = () => {
 
           // Save Full Object to state
           setWorkoutObj(data);
+          console.log(data);
 
           // Get Names and IDs from workouts
           const resWorkoutNames = data.map((workout) => workout.workoutName);
@@ -362,8 +363,8 @@ const LogWorkout = () => {
             </Box>
           ) : null}
         </Grid>
-        < ExportToCSV />
       </Paper>
+      < ExportToCSV />
     </Container>
   );
 };

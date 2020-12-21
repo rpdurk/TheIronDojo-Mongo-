@@ -264,7 +264,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
         <Grid item xs={2}>
-          <PublicWorkout />
+          {/* <PublicWorkout /> */}
         </Grid>
       </Grid>
     </Container>
