@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import axios from 'axios';
 import { setUserId } from '../../User/UserReducer';
 
@@ -25,6 +26,9 @@ const useStyles = makeStyles({
     height: 160,
     width: 220,
     padding: 20,
+    display: 'inline-block',
+
+
   },
 });
 const PublicWorkoutCard = ({ history }) => {
@@ -33,8 +37,6 @@ const PublicWorkoutCard = ({ history }) => {
   const dispatch = useDispatch();
   // eslint-disable-next-line react/react-in-jsx-scope
   const bull = <span className={classes.bullet}>•</span>;
-  // const [workoutName, setWorkoutName] = useState([])
-  // const [exerciseName, setExerciseName] = useState([])
   const [topFiveWorkouts, setTopFiveWorkouts] = useState([]);
   const [users, setUsers] = useState(['Jill', 'Jack', 'Jane', 'John', 'Joe']);
 
@@ -65,7 +67,7 @@ const PublicWorkoutCard = ({ history }) => {
         // setUsers(userArray);
         setTopFiveWorkouts(workoutArray);
         console.log(users)
-            // })
+
 
       });
     } catch (error) {
@@ -91,9 +93,9 @@ const PublicWorkoutCard = ({ history }) => {
               return (
                 <Grid item xs={2}>
                   <Paper className={classes.paper}>
-                    Workout:<div>{workout.workoutName}</div>
                     Name:<div>{users[index]}</div>
-
+                    Workout:<div>{workout.exercise[0]}</div>
+                    <FitnessCenterIcon/>
                   </Paper>
                 </Grid>
               );
