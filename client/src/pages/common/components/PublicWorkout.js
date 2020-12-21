@@ -88,19 +88,14 @@ const PublicWorkoutCard = () => {
   const [profiles, setProfiles] = useState([]);
 
   useEffect(() => {
-    console.log('This is the PublicWorkout Component');
-
     // Get workouts on component loading
     try {
       axios.get(`/api/workout`).then(({ data }) => {
-        console.log('this is data', data);
         let max = 5;
 
         axios
           .get('https://randomuser.me/api/?results=5')
           .then(({ data: { results } }) => {
-            console.log(results);
-
             const exercises = data.map((exercise, index) => {
               const name = results[index].name.first;
               const image = results[index].picture.large;
@@ -122,7 +117,7 @@ const PublicWorkoutCard = () => {
       {profiles !== null && typeof profiles !== 'undefined'
         ? profiles.map((person, index) => {
             return (
-              <Card className={classes.root}>
+              <Card key={index} className={classes.root}>
                 <CardMedia
                   className={classes.media}
                   image={person.image}
@@ -132,18 +127,17 @@ const PublicWorkoutCard = () => {
                   <Typography gutterBottom variant='h5' component='h2'>
                     {person.name}
                   </Typography>
-                  <Typography
-                    variant='body2'
-                    color='textSecondary'
-                    component='p'
-                  >
-                    <Typography variant='fluid'>Has worked on...</Typography>
-                    <List className={listStyles.root} subheader={<li />}>
-                      {person.exerciseList.map((exercise) => (
-                        <Typography>{exercise}</Typography>
-                      ))}
-                    </List>
-                  </Typography>
+
+                  <List className={classes.root} subheader={<li />}>
+                    {person.exerciseList.map((exercise) => (
+                      <li
+                        key={`section-${exercise}`}
+                        className={classes.listSection}
+                      >
+                        {exercise}
+                      </li>
+                    ))}
+                  </List>
                 </CardContent>
               </Card>
             );
