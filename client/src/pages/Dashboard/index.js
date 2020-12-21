@@ -23,7 +23,7 @@ import PublicWorkout from '../common/components/PublicWorkout';
 import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
 // import { current } from '@reduxjs/toolkit';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(5),
     paddingLeft: theme.spacing(4),
@@ -64,14 +64,10 @@ const Dashboard = () => {
   const incomingUserToken = location.pathname.split('/')[3];
 
   // Redux ⚛ Get userId
-  const userId = useSelector(state => state.user.curUserId);
+  const userId = useSelector((state) => state.user.curUserId);
   // Redux ⚛ Get token
-  const token = useSelector(state => state.viewer.token);
+  const token = useSelector((state) => state.viewer.token);
 
-  // Component State
-  // const [weeklyVolume, setWeeklyVolume] = useState(0);
-  // const [weeklyLifts, setWeeklyLifts] = useState(0);
-  // const [weeklyExercises, setWeeklyExercises] = useState(0);
   const [allExercises, setAllExercises] = useState([]); // Stores exercises
   const [selectedExercise, setSelectedExercise] = useState('');
   const [reRender, setReRender] = useState(true); // Boolean For useEffect -> To Prevent Re Renders
@@ -117,13 +113,12 @@ const Dashboard = () => {
     });
 
     let tempArray = [];
-    sorted.forEach(el => {
+    sorted.forEach((el) => {
       tempArray.push({ date: el[0], weight: el[1] });
     });
     setTableData(tempArray);
   };
 
-  // Calculate Data
   useEffect(() => {
     console.log(`DASHBOARD USEFFECT`);
 
@@ -138,38 +133,38 @@ const Dashboard = () => {
           dispatch(setViewerToken(incomingUserToken));
           localStorage.setItem('token', incomingUserToken);
         }
-      }, 1000);
+      }, 300);
 
-      axios
-        .get(`/api/account/details`, {
-          headers: { authorization: token },
-        })
-        .then(res => {
-          localStorage.setItem('userDetails', JSON.stringify(res.data));
-          dispatch(setUserDetails(res.data));
-        });
+      // axios
+      //   .get(`/api/account/details`, {
+      //     headers: { authorization: token },
+      //   })
+      //   .then((res) => {
+      //     localStorage.setItem('userDetails', JSON.stringify(res.data));
+      //     dispatch(setUserDetails(res.data));
+      //   });
 
       console.log(`this is the userId ${userId}`);
 
       // Get Workout List from Backend
-      axios
-        .get(`/api/exercise`, {
-          headers: { authorization: token },
-        })
-        .then(({ data }) => {
-          // Save Full Object to state
-          setAllExercises(data);
+      // axios
+      //   .get(`/api/exercise`, {
+      //     headers: { authorization: token },
+      //   })
+      //   .then(({ data }) => {
+      //     // Save Full Object to state
+      //     setAllExercises(data);
 
-          // Get Names and IDs from workouts
-          const temp = data.map(exercise => exercise.exerciseName);
-          // const resWorkoutIds = data.map((workout) => workout.id);
+      //     // Get Names and IDs from workouts
+      //     const temp = data.map((exercise) => exercise.exerciseName);
+      //     // const resWorkoutIds = data.map((workout) => workout.id);
 
-          let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
+      //     let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
 
-          setAllExercisesByName(resExerciseNames);
+      //     setAllExercisesByName(resExerciseNames);
 
-          setReRender(false);
-        }); // Axios Get
+      //     setReRender(false);
+      //   }); // Axios Get
     }
 
     makeChartData();
@@ -208,69 +203,50 @@ const Dashboard = () => {
 
   return (
     <Container maxWidth='xl' className={classes.container}>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>
-      Dashboard
-    </Typography>
+      <Typography component='h2' variant='h6' color='primary' gutterBottom>
+        Dashboard
+      </Typography>
       <Container className={classes.header}>
         {/* <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
         </Box> */}
       </Container>
       <Grid container spacing={3}>
-        {/* Weekly Weight */}
         <WeeklyVolumeNumber />
-        {/* Weekly Lifts */}
-        {/* <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            <h4>Lifts This Week</h4>
-            {/* <h1>{weeklyLifts}</h1> */}
-        {/* {weeklyVolume === null ? (  */}
-        {/* // <LinearProgress />
-            // ) : (
-              // <h1>{weeklyLifts} lbs</h1>
-            // )} */}
-        {/* </Paper> */}
-        {/* </Grid> */}
-        {/* Weekly total exercises */}
-        {/* <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            <h4>Weekly Exercises</h4> */}
-        {/* <h1>{weeklyExercises}</h1> */}
-        {/* {weeklyVolume === null ? ( */}
-        {/* <LinearProgress /> */}
-        {/* ) : (
-        <h1>{weeklyExercises} lbs</h1>
-             )} */}
-        {/* </Paper>
-        </Grid>  */}
-        {/* Weekly Volume */}
-        <PublicWorkout />
-        <Grid item xs={12}>
+        <Grid item xs={10} spacing={0}>
           <Paper className={fixedHeightPaper}>
-            <h3 align="left" paddingLeft={30}>Weekly Analysis</h3>
-            
+            <h3 align='left' paddingLeft={30}>
+              Weekly Analysis
+            </h3>
+
             {/* <ProgressMenu /> */}
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
-              >
+            >
               <Autocomplete
-                id="exerciseChart"
+                id='exerciseChart'
                 options={allExercisesByName}
-                getOptionLabel={option => option}
+                getOptionLabel={(option) => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
                 style={{ width: 400 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Choose your Exercise"
-                    variant="outlined"
+                    label='Choose your Exercise'
+                    variant='outlined'
                   />
                 )}
               />
             </FormControl>
-            <ProgressChart data={tableData.length !== 0 ? tableData : data} />
+            <ProgressChart
+              spacing={0}
+              data={tableData.length !== 0 ? tableData : data}
+            />
           </Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <PublicWorkout />
         </Grid>
       </Grid>
     </Container>
