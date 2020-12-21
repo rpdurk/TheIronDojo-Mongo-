@@ -24,21 +24,22 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginTop: theme.spacing(5),
-
-    paddingBottom: theme.spacing(4),
+    paddingLeft: theme.spacing(4),
+    marginBottom: theme.spacing(5),
   },
   paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    margin: '0 auto',
-    overflow: 'auto',
-    flexDirection: 'column',
-    textAlign: 'center',
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(5),
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   header: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    marginBottom: theme.spacing(7),
+    
     marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
@@ -249,9 +250,9 @@ const LogWorkout = () => {
       <Typography component="h2" variant="h6" color="primary" gutterBottom align="Left">
     Start Workout
     </Typography>
-      <Container className={classes.header}>
+      {/* <Container className={classes.header}>
         
-      </Container>
+      </Container> */}
       <Paper className={classes.paper}>
         {inputError ? (
           <Alert severity='error' className={classes.alert}>

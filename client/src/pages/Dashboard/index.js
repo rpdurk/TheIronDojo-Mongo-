@@ -27,9 +27,11 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(5),
     paddingLeft: theme.spacing(4),
+    
   },
   paper: {
     padding: theme.spacing(2),
+    marginTop: theme.spacing(4),
     display: 'flex',
     margin: '0 auto',
     overflow: 'auto',
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   fixedHeight: {
-    height: 350,
+    height: 450,
   },
 
   header: {
@@ -53,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
+  input:{
+    padding: theme.spacing(2)
+  }
 }));
 
 const Dashboard = () => {
@@ -207,10 +212,11 @@ const Dashboard = () => {
         Dashboard
       </Typography>
       <Container className={classes.header}>
+
         {/* <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
         </Box> */}
-      </Container>
+      {/* </Container> */}
       <Grid container spacing={3}>
         <WeeklyVolumeNumber />
         <Grid item xs={10} spacing={0}>
@@ -224,6 +230,7 @@ const Dashboard = () => {
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
             >
+
               <Autocomplete
                 id='exerciseChart'
                 options={allExercisesByName}
@@ -235,8 +242,9 @@ const Dashboard = () => {
                     {...params}
                     label='Choose your Exercise'
                     variant='outlined'
+
                   />
-                )}
+                  )}
               />
             </FormControl>
             <ProgressChart

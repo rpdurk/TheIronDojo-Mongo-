@@ -10,6 +10,7 @@ import {
   Box,
   Icon,
   Typography,
+  Card,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useUtils } from "../common";
@@ -20,6 +21,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(5),
+    paddingLeft: theme.spacing(4),
     display: "flex",
     flexDirection: "column",
     // alignItems: "center",
@@ -172,8 +174,8 @@ export default function CreateWorkout() {
       });
   }, []);
   return (
+    
     <Container maxWidth="xl" className={classes.container}>
-
 <Typography component="h2" variant="h6" color="primary" gutterBottom align="Left">
     Create a New Workout
     </Typography>
@@ -199,25 +201,23 @@ export default function CreateWorkout() {
             />
           )}
         </Box>
-        <Box className={classes.addBtn}>
-          <Button
-            onClick={e => {
-              e.preventDefault();
-              const newExercise = {
-                value: "",
-              };
-              setExercise([...exercise, newExercise]);
-            }}
-            color="primary"
-            variant="contained"
-          >
-            Add Exercise
-            <Icon
-              className="fa fa-plus-circle"
-              style={{ marginLeft: "1rem" }}
-            />
-          </Button>
-        </Box>
+        
+        <div className={classes.row}>
+              <Autocomplete
+                id={`exercise0`}
+                options={exerciseList}
+                getOptionLabel={option => option}
+                style={{ width: 400 }}
+                renderInput={params => (
+                  <TextField
+                    required
+                    {...params}
+                    label="Choose exercise"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </div>
         {exercise.map((_element, index) => {
           counter = index;
           return (
@@ -239,6 +239,25 @@ export default function CreateWorkout() {
             </div>
           );
         })}
+        <Box className={classes.addBtn}>
+          <Button
+            onClick={e => {
+              e.preventDefault();
+              const newExercise = {
+                value: "",
+              };
+              setExercise([...exercise, newExercise]);
+            }}
+            color="primary"
+            variant="contained"
+          >
+            Add Exercise
+            <Icon
+              className="fa fa-plus-circle"
+              style={{ marginLeft: "1rem" }}
+            />
+          </Button>
+        </Box>
       </Container>
       <Box align="center">
       {pushSuccess ? (
