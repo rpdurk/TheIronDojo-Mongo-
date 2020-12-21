@@ -1,4 +1,4 @@
-import React from 'react';
+                                                          import React from 'react';
 import clsx from 'clsx';
 import { useHistory, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    
+
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
