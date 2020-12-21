@@ -39,8 +39,8 @@ const Account = () => {
 
   const handleDelete = (req, res) => {
     confirmAlert({
-      title: 'Confirm to submit',
-      message: 'Are you sure to do this.',
+      title: 'DELETE ACCOUNT',
+      message: 'Are you sure to delete this Account?',
       buttons: [
         {
           label: 'Yes',
