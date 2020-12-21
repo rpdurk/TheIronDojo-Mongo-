@@ -21,6 +21,7 @@ import ProgressChart from '../common/components/Charts/ProgressChart';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import PublicWorkout from '../common/components/PublicWorkout';
 import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
+import VolByMuscleChart from '../common/components/Charts/VolByMuscleChart';
 // import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
@@ -212,11 +213,10 @@ const Dashboard = () => {
         Dashboard
       </Typography>
       <Container className={classes.header}>
-
         {/* <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
         </Box> */}
-      {/* </Container> */}
+      </Container>
       <Grid container spacing={3}>
         <WeeklyVolumeNumber />
         <Grid item xs={10} spacing={0}>
@@ -224,13 +224,11 @@ const Dashboard = () => {
             <h3 align='left' paddingLeft={30}>
               Weekly Analysis
             </h3>
-
             {/* <ProgressMenu /> */}
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
             >
-
               <Autocomplete
                 id='exerciseChart'
                 options={allExercisesByName}
@@ -242,9 +240,8 @@ const Dashboard = () => {
                     {...params}
                     label='Choose your Exercise'
                     variant='outlined'
-
                   />
-                  )}
+                )}
               />
             </FormControl>
             <ProgressChart
@@ -253,11 +250,11 @@ const Dashboard = () => {
             />
           </Paper>
         </Grid>
+        <VolByMuscleChart />
         <Grid item xs={2}>
           <PublicWorkout />
         </Grid>
       </Grid>
-      <WeeklyVolumeNumber />
     </Container>
   );
 };
