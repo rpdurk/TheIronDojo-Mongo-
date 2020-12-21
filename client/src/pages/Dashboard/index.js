@@ -27,9 +27,11 @@ const useStyles = makeStyles(theme => ({
   container: {
     marginTop: theme.spacing(5),
     paddingLeft: theme.spacing(4),
+    
   },
   paper: {
     padding: theme.spacing(2),
+    marginTop: theme.spacing(4),
     display: 'flex',
     margin: '0 auto',
     overflow: 'auto',
@@ -37,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   fixedHeight: {
-    height: 350,
+    height: 450,
   },
 
   header: {
@@ -53,6 +55,9 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
+  input:{
+    padding: theme.spacing(2)
+  }
 }));
 
 const Dashboard = () => {
@@ -211,11 +216,11 @@ const Dashboard = () => {
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
       Dashboard
     </Typography>
-      <Container className={classes.header}>
+      {/* <Container className={classes.header}> */}
         {/* <Box border={1} borderRadius={16} className={classes.headerPadding}>
           <h1>Dashboard</h1>
         </Box> */}
-      </Container>
+      {/* </Container> */}
       <Grid container spacing={3}>
         {/* Weekly Weight */}
         <WeeklyVolumeNumber />
@@ -244,15 +249,15 @@ const Dashboard = () => {
         {/* </Paper>
         </Grid>  */}
         {/* Weekly Volume */}
-        <PublicWorkout />
+            {/* <PublicWorkout /> */}
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
-            <h3 align="left" paddingLeft={30}>Weekly Analysis</h3>
+            <h2 align="center">Weekly Analysis</h2>
             
             {/* <ProgressMenu /> */}
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
-              className={classes.centerInput}
+              className={classes.input}
               >
               <Autocomplete
                 id="exerciseChart"
@@ -262,11 +267,11 @@ const Dashboard = () => {
                 style={{ width: 400 }}
                 renderInput={params => (
                   <TextField
-                    {...params}
-                    label="Choose your Exercise"
-                    variant="outlined"
+                  {...params}
+                  label="Choose your Exercise"
+                  variant="outlined"
                   />
-                )}
+                  )}
               />
             </FormControl>
             <ProgressChart data={tableData.length !== 0 ? tableData : data} />
