@@ -55,7 +55,6 @@ const WeeklyVolumeNumber = () => {
     console.log(singleExerciseArray);
     return singleExerciseArray;
   };
-  // console.log(calculateVolumePerExercise(exercises));
 
   const calculateWeeklyVolume = (volumePerExercise) => {
     let totalWeeklyVolume = [];
