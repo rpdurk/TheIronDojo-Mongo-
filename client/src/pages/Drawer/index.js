@@ -141,8 +141,7 @@ const PersistentDrawerLeft = (props) => {
   const history = useHistory();
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    localStorage.clear();
     dispatch(setViewerToken(null));
     dispatch(signOutUser());
     history.push('/');
