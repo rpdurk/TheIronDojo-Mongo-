@@ -2,6 +2,7 @@ import React from "react";
 import barbell from "./barbell.png";
 import iron from "./iron.png";
 import dojo from "./dojo.png";
+// import ironDojologo from './ironDojologo.png';
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -23,6 +24,7 @@ const Banner = () => {
         <img src={iron} className={ironSpacing} />
         <img src={barbell} className={banner} />
         <img src={dojo} className={banner} />
+        {/* <img src={ironDojologo} className={banner} /> */}
       </div>
     </>
   );
