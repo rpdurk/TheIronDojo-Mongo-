@@ -5,7 +5,7 @@ import ProfileDetails from './ProfileDetails';
 import { createDispatchHook, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useUtils } from '../common';
-import { confirmAlert } from 'react-confirm-alert';
+import confirmAlert from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { setUserDetails } from '../User/UserReducer';
 

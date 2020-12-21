@@ -14,6 +14,7 @@ import { useUtils } from '../common';
 import { setUserId } from '../User/UserReducer';
 import uniqid from 'uniqid';
 import { Grid, InputAdornment, OutlinedInput ,Typography} from '@material-ui/core';
+import ExportToCSV from '../common/components/exportWorkouts';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -361,6 +362,7 @@ const LogWorkout = () => {
             </Box>
           ) : null}
         </Grid>
+        < ExportToCSV />
       </Paper>
     </Container>
   );
