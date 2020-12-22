@@ -2,25 +2,25 @@
 
 <p align="center">
     
-  <a href="https://github.com/rpdurk/strengthApp/graphs/contributors" alt="Contributors">
-          <img src="https://img.shields.io/github/contributors/rpdurk/strengthApp?style=plastic" /></a>
+  <a href="https://github.com/rpdurk/TheIronDojo-Mongo-/graphs/contributors" alt="Contributors">
+          <img src="https://img.shields.io/github/contributors/rpdurk/TheIronDojo-Mongo-?style=plastic" /></a>
           
-  <a href="https://github.com/rpdurk/strengthApp/network/members" alt="Forks">
-          <img src="https://img.shields.io/github/forks/rpdurk/strengthApp?style=plastic" /></a>
+  <a href="https://github.com/rpdurk/TheIronDojo-Mongo-/network/members" alt="Forks">
+          <img src="https://img.shields.io/github/forks/rpdurk/TheIronDojo-Mongo-?style=plastic" /></a>
   
-  <a href="https://github.com/rpdurk/strengthApp/issues" alt="Issues">
-          <img src="https://img.shields.io/github/issues/rpdurk/strengthApp" /></a>
+  <a href="https://github.com/rpdurk/TheIronDojo-Mongo-/issues" alt="Issues">
+          <img src="https://img.shields.io/github/issues/rpdurk/TheIronDojo-Mongo-" /></a>
           
-  <a href="https://github.com/rpdurk/strengthApp/pulls" alt="Pull">
-          <img src="https://img.shields.io/github/issues-pr/rpdurk/strengthApp" /></a>
+  <a href="https://github.com/rpdurk/TheIronDojo-Mongo-/pulls" alt="Pull">
+          <img src="https://img.shields.io/github/issues-pr/rpdurk/TheIronDojo-Mongo-" /></a>
           
-  <a href="https://github.com/rpdurk/strengthApp/pulls" alt="Pull">
-          <img src="https://img.shields.io/github/issues-pr-closed/rpdurk/strengthApp" /></a>
+  <a href="https://github.com/rpdurk/TheIronDojo-Mongo-/pulls" alt="Pull">
+          <img src="https://img.shields.io/github/issues-pr-closed/rpdurk/TheIronDojo-Mongo-" /></a>
 </p>
 
 <br />
 <p align="center">
-  <a href="https://the-iron-dojo.herokuapp.com/">
+  <a href="https://iron-dojo.herokuapp.com/">
     <img src="./projectImages/ironDojologo.png" alt="Logo" width="360" height="180">
   </a>
 
@@ -29,7 +29,7 @@
   <p align="center">
     A web application that allows you to track your strength.
     <br />
-    <a href="https://the-iron-dojo.herokuapp.com/"><strong>Explore the Iron Dojo »</strong></a>
+    <a href="https://iron-dojo.herokuapp.com/"><strong>Explore the Iron Dojo »</strong></a>
     <br />
   </p>
 </p>
@@ -50,7 +50,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[The Iron Dojo](https://the-iron-dojo.herokuapp.com/)
+[The Iron Dojo](https://iron-dojo.herokuapp.com/)
 
 Exercise is medicine. Physical activity comes in a wide variety of modes including running, team sports, active-virtual-reality games, and of course strength training.  Most web applications are designed for the aerobic exercise enthusiast in mind, but strength training has been show to be incredibly important for health.  
 
@@ -67,24 +67,31 @@ Wether you are looking to improve your health, improve your strength, or simply 
 ### Built With
 * [React](https://reactjs.org/)
 * [Material-UI](https://material-ui.com/)
+* [Node](https://nodejs.org/en/)
+* [ExpressJs](https://expressjs.com/)
 * [JavaScript](https://www.javascript.com/)
+* [Bcrypt](https://www.npmjs.com/package/bcrypt)
+* [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken)
+* [MongoDB](https://www.mongodb.com/2)
+* [Mongoose](https://mongoosejs.com/)
 * [heroku](https://www.heroku.com/home)
 * [wger API](https://wger.de/en/software/api)
+* [Google O-Auth](https://developers.google.com/identity/protocols/oauth2)
 
 
 ## Visit The Site
 
-Visit the live website at [Here](https://the-iron-dojo.herokuapp.com/)
+Visit the live website at [Here](https://iron-dojo.herokuapp.com/)
 
 
 ## Usage
 
 The primary purpose of this project is to make, log, and track your strength training. Take a look on how to do that!
 
-1. Sign Up!
+1. Sign Up with your email or Google!
     ![Sign Up](./projectImages/signIn.png)
 
-2. Sign In
+2. Sign In with your email or Google!
     ![Sign In](./projectImages/signUp.png)
 
 3. Create your first workout.  Name it, choose the right exercises, and save when you are ready!
@@ -93,17 +100,20 @@ The primary purpose of this project is to make, log, and track your strength tra
 4. Log the sets, repetitions, weight and select the date the workout was completed on.
     ![Log Workout](./projectImages/Log.gif)
 
-5. Chart your Progress by selecting an exercise you want to review.
+5. Chart your progress by selecting an exercise you want to review.  Check out our lifetime volume or weekly volume to make sure you are hitting your goals.
     ![Dashboard](./projectImages/dashboard.gif)
+
+6. Notice the community feed on the side to gain extra motivation and ideas!
+    ![Dashboard](./projectImages/CommunityFeed.png)
 
 ## Contributing
 
 Contributions for this web application was made by 
 * [Ryan Durk](https://github.com/rpdurk), 
 * [Jeff Hogg](https://github.com/bosshogg86), 
-* [Qian Hu](https://github.com/huqian301), and 
-* [Muhammad Kamran](https://github.com/mkamran67).
-
+* [Qian Hu](https://github.com/huqian301),
+* [Muhammad Kamran](https://github.com/mkamran67), and
+* [Ryan Mendez](https://github.com/rymen80).
 
 <!-- LICENSE -->
 ## License
