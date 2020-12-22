@@ -129,5 +129,6 @@ Please contact any of as at:
 * Jeff Hogg - [https://github.com/bosshogg86](https://github.com/bosshogg86)
 * Qian Hu - [https://github.com/huqian301](https://github.com/huqian301)
 * Muhammad Kamran - [https://github.com/mkamran67](https://github.com/mkamran67)
+* Ryan Mendez - [https://github.com/rymen80](https://github.com/rymen80)
 
 Project Link: [https://github.com/rpdurk/strengthApp](https://github.com/rpdurk/strengthApp)
