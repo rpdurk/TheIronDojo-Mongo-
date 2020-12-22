@@ -26,7 +26,7 @@ import Banner from '../common/components/Banner';
 import { signOutUser } from '../User/UserReducer';
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
@@ -80,9 +80,6 @@ const useStyles = makeStyles(theme => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
-  // menuButton: {
-  //   // marginRight: theme.spacing(2),
-  // },
   menuButton: {
     marginRight: 0,
   },
@@ -126,7 +123,7 @@ const useStyles = makeStyles(theme => ({
     width: '70px',
   },
   active: {
-    color: 'black',
+    color: 'white',
     '& $title': {
       fontWeight: theme.typography.fontWeightMedium,
     },
@@ -136,11 +133,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PersistentDrawerLeft = props => {
+const PersistentDrawerLeft = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { token } = useSelector(state => state.viewer);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -158,8 +154,6 @@ const PersistentDrawerLeft = props => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const handleMenu = () => {};
 
   const menuItems = [
     {
@@ -199,17 +193,17 @@ const PersistentDrawerLeft = props => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        position='fixed'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
             })}
@@ -221,7 +215,7 @@ const PersistentDrawerLeft = props => {
         <div className={classes.spacer}></div>
       </AppBar>
       <Drawer
-        variant="permanent"
+        variant='permanent'
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
@@ -244,14 +238,14 @@ const PersistentDrawerLeft = props => {
         </div>
         <Divider />
         <List>
-          {menuItems.map(item => {
+          {menuItems.map((item) => {
             const { text, icon, onClick } = item;
             return (
               <ListItem
                 button
                 key={text}
                 onClick={onClick}
-                activeClassName={classes.active}
+                className={classes.active}
               >
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
@@ -261,7 +255,7 @@ const PersistentDrawerLeft = props => {
         </List>
         <Divider />
         <List>
-          {accountItems.map(item => {
+          {accountItems.map((item) => {
             const { text, icon, onClick } = item;
             return (
               <ListItem button key={text} onClick={onClick}>
