@@ -116,9 +116,9 @@ const Dashboard = () => {
   const [reRender, setReRender] = useState(true); // Boolean For useEffect -> To Prevent Re Renders
   const [allExercisesByName, setAllExercisesByName] = useState([]); // Stores names
   const [tableData, setTableData] = useState([]);
-  const [totalCompleted, setTotalCompleted] = useState(null);
+  const [totalCompleted, setTotalCompleted] = useState(0);
   const [weeklyVolume, setWeeklyVolume] = useState([]);
-  const [mostCompleted, setMostCompleted] = useState(null);
+  const [mostCompleted, setMostCompleted] = useState(0);
 
   const calculateVolumePerExercise = (exercises) => {
     let singleExerciseArray = [];
