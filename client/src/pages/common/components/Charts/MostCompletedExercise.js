@@ -26,54 +26,14 @@ const useStyles = makeStyles({
   },
 });
 
-const calculateMostExercised = (array) => {
-  let leaderBoardObj = {};
-
-  array.forEach((el) => {
-    if (leaderBoardObj[el.exerciseName]) {
-      leaderBoardObj[el.exerciseName]++;
-    } else {
-      leaderBoardObj[el.exerciseName] = 1;
-    }
-  });
-
-  let sortable = [];
-  for (const exercise in leaderBoardObj) {
-    sortable.push([exercise, leaderBoardObj[exercise]]);
-  }
-
-  sortable.sort(function (a, b) {
-    return b[1] - a[1];
-  });
-  return sortable[0][0];
-};
-
-const MostCompletedExercise = () => {
+const MostCompletedExercise = ({ mostCompleted }) => {
   const classes = useStyles();
-  // Redux ⚛ Get token
-  const token = useSelector((state) => state.viewer.token);
-  const [mostCompleted, setMostCompleted] = useState(0);
-
-  useEffect(() => {
-    // get last seven days of exercise
-    try {
-      axios
-        .get(`/api/exercise/7`, {
-          headers: { authorization: token },
-        })
-        .then(({ data }) => {
-          setMostCompleted(calculateMostExercised(data));
-        });
-    } catch (error) {
-      console.log(`err`, error);
-    }
-  }, []);
 
   return (
     <Grid item xs={4}>
       <Paper className={classes.paper}>
         <h4>Weekly Favorite</h4>
-        {typeof mostCompleted === 'undefined' ? (
+        {typeof mostCompleted === 'undefined' || mostCompleted === null ? (
           <LinearProgress />
         ) : (
           <h3>{mostCompleted}</h3>

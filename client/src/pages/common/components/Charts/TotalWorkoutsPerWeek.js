@@ -26,60 +26,18 @@ const useStyles = makeStyles({
   },
 });
 
-const calculateVolumePerExercise = (exercises) => {
-  let singleExerciseArray = [];
-  exercises.map((exercise) => {
-    const totalPerVolumeExercise =
-      exercise.setTotal *
-      exercise.repetitionsCompletedPerSet *
-      exercise.weightUsedPerSet;
-    let exerciseName = exercise.exerciseName;
-    let exerciseObj = { [exerciseName]: totalPerVolumeExercise };
-    singleExerciseArray.push(exerciseObj);
-  });
-  return singleExerciseArray;
-};
-
-const calculateVolume = (volumePerExercise) => {
-  let volumeTotal = 0;
-  volumePerExercise.map((exercise) => {
-    for (const key in exercise) {
-      volumeTotal += exercise[key];
-    }
-  });
-  return volumeTotal;
-};
-
-const TotalWorkoutsPerWeek = () => {
+const TotalWorkoutsPerWeek = ({ totalCompleted }) => {
   const classes = useStyles();
-  // Redux ⚛ Get token
-  const token = useSelector((state) => state.viewer.token);
-  const userId = useSelector((state) => state.user.userDetails._id);
-  const [mostCompleted, setMostCompleted] = useState(0);
 
-  useEffect(() => {
-    // get last seven days of exercise
-    try {
-      axios
-        .get(`/api/exercise`, {
-          headers: { authorization: token },
-        })
-        .then(({ data }) => {
-          setMostCompleted(calculateVolume(calculateVolumePerExercise(data)));
-        });
-    } catch (error) {
-      console.log(`err`, error);
-    }
-  }, []);
-
+  console.log(totalCompleted);
   return (
     <Grid item xs={4}>
       <Paper className={classes.paper}>
         <h4>Lifetime Volume</h4>
-        {typeof mostCompleted === 'undefined' ? (
+        {typeof totalCompleted === 'undefined' || totalCompleted === null ? (
           <LinearProgress />
         ) : (
-          <h1>{mostCompleted} lbs</h1>
+          <h1>{totalCompleted} lbs</h1>
         )}
       </Paper>
     </Grid>
