@@ -14,7 +14,6 @@ export const useCreateUser = () => {
         console.log('response 👇');
         if (data.error) {
           console.log(`yes errors`, data);
-          // TODO: Dispatch error
         } else {
           const user = await axios.get(`/auth/userid/${formValues.email}`);
 
