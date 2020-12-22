@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { CSVLink } from "react-csv";
+import { CSVLink, CSVDownload } from "react-csv";
 
 const useStyles = makeStyles(theme => ({
     btn: { 
@@ -65,9 +65,10 @@ const ExportToCSV = () => {
         < br /> 
         <CSVLink
           data={data}
+          filename="data.csv"
           onClick={event => {handleExport
             console.log("You click the link");
-            return false; // 👍🏻 You are stopping the handling of component
+            console.log(data);
           }}
         >
           Download Exercise Data
