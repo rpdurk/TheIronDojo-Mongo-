@@ -25,6 +25,9 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build/index.html'));
   });
+  app.get('/dashboard/:id/:token', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/build/index.html'));
+  });
   app.get('/create', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build/index.html'));
   });
