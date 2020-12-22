@@ -7,7 +7,8 @@ import axios from 'axios';
 import { useUtils } from '../common';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { setUserDetails } from '../User/UserReducer';
+import { setUserDetails, signOutUser } from '../User/UserReducer';
+import { setViewerToken } from '../Viewer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,16 +32,19 @@ const Account = () => {
   const classes = useStyles();
   const user = useSelector(state => state.user.userDetails);
   const token = useSelector(state => state.viewer.token);
-  const { history } = useUtils();
+  const { history, dispatch } = useUtils();
 
-  const remove = (state, action) => {
-    state = {};
+  const handleSignOut = () => {
+    localStorage.clear();
+    dispatch(setViewerToken(null));
+    dispatch(signOutUser());
+    history.push('/');
   };
 
   const handleDelete = (req, res) => {
     confirmAlert({
-      title: 'Confirm to submit',
-      message: 'Are you sure to do this.',
+      title: 'DELETE ACCOUNT',
+      message: 'Are you sure to delete this Account?',
       buttons: [
         {
           label: 'Yes',
@@ -49,9 +53,7 @@ const Account = () => {
               await axios.delete('/api/account/details', {
                 headers: { authorization: token },
               });
-              localStorage.clear();
-              remove();
-              history.push('/');
+              handleSignOut();
             } catch (e) {
               console.log('handleDelete', e);
             }

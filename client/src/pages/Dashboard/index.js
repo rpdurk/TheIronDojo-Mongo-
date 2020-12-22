@@ -25,6 +25,7 @@ import VolByMuscleChart from '../common/components/Charts/VolByMuscleChart';
 import MostCompletedExercise from '../common/components/Charts/MostCompletedExercise';
 import TotalWorkoutsPerWeek from '../common/components/Charts/TotalWorkoutsPerWeek';
 import RadialChartCauseRyanAsked from '../common/components/Charts/RadialChartCauseRyanAsked';
+
 // import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
@@ -226,6 +227,23 @@ const Dashboard = () => {
         if (incomingUserToken) {
           dispatch(setViewerToken(incomingUserToken));
           localStorage.setItem('token', incomingUserToken);
+          axios
+            .get(`/api/account/details`, {
+              headers: { authorization: localStorage.getItem('token') },
+            })
+            .then(res => {
+              localStorage.setItem('userDetails', JSON.stringify(res.data));
+              dispatch(setUserDetails(res.data));
+            });
+        } else if (token) {
+          axios
+            .get(`/api/account/details`, {
+              headers: { authorization: token },
+            })
+            .then(res => {
+              localStorage.setItem('userDetails', JSON.stringify(res.data));
+              dispatch(setUserDetails(res.data));
+            });
         }
       }, 300);
 
@@ -240,6 +258,7 @@ const Dashboard = () => {
         });
 
       // Get Workout List from Backend -------------------- Axios Call
+
       axios
         .get(`/api/exercise`, {
           headers: { authorization: token },
@@ -295,6 +314,7 @@ const Dashboard = () => {
         </Grid>
         <Grid className={classes.bigNumbers} item xs={1}>
           <TotalWorkoutsPerWeek totalCompleted={totalCompleted} />
+
         </Grid>
       </Grid>
 
@@ -333,7 +353,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
         <Grid item xs={2}>
-          <PublicWorkout />
+          {/* <PublicWorkout /> */}
         </Grid>
       </Grid>
     </Container>
