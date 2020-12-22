@@ -23,10 +23,12 @@ import PublicWorkout from '../common/components/PublicWorkout';
 import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
 import VolByMuscleChart from '../common/components/Charts/VolByMuscleChart';
 import MostCompletedExercise from '../common/components/Charts/MostCompletedExercise';
-// import TotalWorkoutsPerWeek from '../common/components/Charts/TotalWorkoutsPerWeek';
+import TotalWorkoutsPerWeek from '../common/components/Charts/TotalWorkoutsPerWeek';
+import RadialChartCauseRyanAsked from '../common/components/Charts/RadialChartCauseRyanAsked';
+
 // import { current } from '@reduxjs/toolkit';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(5),
     paddingLeft: theme.spacing(4),
@@ -65,24 +67,106 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const data = [
+  {
+    date: 'Monday',
+    weight: 2400,
+  },
+  {
+    date: 'Tuesday',
+    weight: 1398,
+  },
+  {
+    date: 'Wednesday',
+    weight: 9800,
+  },
+  {
+    date: 'Thursday',
+    weight: 3908,
+  },
+  {
+    date: 'Friday',
+    weight: 4800,
+  },
+  {
+    date: 'Saturday',
+    weight: 3800,
+  },
+  {
+    date: 'Sunday',
+    weight: 4300,
+  },
+];
+
 const Dashboard = () => {
   const classes = useStyles(); // -> Material UI Styles
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight); // -> Material UI
-  const { dispatch, history } = useUtils();
+  const { dispatch } = useUtils();
   const location = useLocation();
   const incomingUserId = location.pathname.split('/')[2];
   const incomingUserToken = location.pathname.split('/')[3];
 
   // Redux ⚛ Get userId
-  const userId = useSelector(state => state.user.curUserId);
+  const userId = useSelector((state) => state.user.curUserId);
   // Redux ⚛ Get token
-  const token = useSelector(state => state.viewer.token);
+  const token = useSelector((state) => state.viewer.token);
 
   const [allExercises, setAllExercises] = useState([]); // Stores exercises
   const [selectedExercise, setSelectedExercise] = useState('');
   const [reRender, setReRender] = useState(true); // Boolean For useEffect -> To Prevent Re Renders
   const [allExercisesByName, setAllExercisesByName] = useState([]); // Stores names
   const [tableData, setTableData] = useState([]);
+  const [totalCompleted, setTotalCompleted] = useState(null);
+  const [weeklyVolume, setWeeklyVolume] = useState([]);
+  const [mostCompleted, setMostCompleted] = useState(null);
+
+  const calculateVolumePerExercise = (exercises) => {
+    let singleExerciseArray = [];
+    exercises.map((exercise) => {
+      const totalPerVolumeExercise =
+        exercise.setTotal *
+        exercise.repetitionsCompletedPerSet *
+        exercise.weightUsedPerSet;
+      let exerciseName = exercise.exerciseName;
+      let exerciseObj = { [exerciseName]: totalPerVolumeExercise };
+      singleExerciseArray.push(exerciseObj);
+    });
+
+    return singleExerciseArray;
+  };
+
+  const calculateVolume = (volumePerExercise) => {
+    let volumeTotal = 0;
+    volumePerExercise.map((exercise) => {
+      for (const key in exercise) {
+        volumeTotal += exercise[key];
+      }
+    });
+
+    return volumeTotal;
+  };
+
+  const calculateMostExercised = (array) => {
+    let leaderBoardObj = {};
+
+    array.forEach((el) => {
+      if (leaderBoardObj[el.exerciseName]) {
+        leaderBoardObj[el.exerciseName]++;
+      } else {
+        leaderBoardObj[el.exerciseName] = 1;
+      }
+    });
+
+    let sortable = [];
+    for (const exercise in leaderBoardObj) {
+      sortable.push([exercise, leaderBoardObj[exercise]]);
+    }
+
+    sortable.sort(function (a, b) {
+      return b[1] - a[1];
+    });
+    return sortable[0][0];
+  };
 
   const makeChartData = () => {
     let currentExerciseArrayObj = {};
@@ -123,7 +207,7 @@ const Dashboard = () => {
     });
 
     let tempArray = [];
-    sorted.forEach(el => {
+    sorted.forEach((el) => {
       tempArray.push({ date: el[0], weight: el[1] });
     });
     setTableData(tempArray);
@@ -133,6 +217,7 @@ const Dashboard = () => {
     console.log(`DASHBOARD USEFFECT`);
 
     if (reRender) {
+      // Checks for Google 0Auth -------------------- 0Auth
       if (incomingUserId) {
         dispatch(setUserId(incomingUserId));
         localStorage.setItem('userId', incomingUserId);
@@ -162,101 +247,97 @@ const Dashboard = () => {
         }
       }, 300);
 
-      // Get Workout List from Backend
+      // TODO: Fix Refresh issue   --------------------------------
+      axios
+        .get(`/api/account/details`, {
+          headers: { authorization: token },
+        })
+        .then((res) => {
+          localStorage.setItem('userDetails', JSON.stringify(res.data));
+          dispatch(setUserDetails(res.data));
+        });
+
+      // Get Workout List from Backend -------------------- Axios Call
+
       axios
         .get(`/api/exercise`, {
           headers: { authorization: token },
         })
         .then(({ data }) => {
           // Save Full Object to state
+          let tempVariable = calculateVolume(calculateVolumePerExercise(data));
+          console.log(tempVariable);
+          setTotalCompleted(tempVariable);
+
           setAllExercises(data);
 
           // Get Names and IDs from workouts
           const temp = data.map((exercise) => exercise.exerciseName);
-          // const resWorkoutIds = data.map((workout) => workout.id);
 
           let resExerciseNames = [...new Set(temp)]; // Remove Duplicates
 
           setAllExercisesByName(resExerciseNames);
-
           setReRender(false);
         }); // Axios Get
+
+      // ----------------------------------------------------------------
+      try {
+        axios
+          .get(`/api/exercise/7`, {
+            headers: { authorization: token },
+          })
+          .then(({ data }) => {
+            // Save Full Object to state
+            setMostCompleted(calculateMostExercised(data));
+            setWeeklyVolume(calculateVolume(calculateVolumePerExercise(data)));
+          });
+      } catch (error) {
+        console.log(`err`, error);
+      }
     }
 
     makeChartData();
   }, [reRender, selectedExercise]);
 
-  const data = [
-    {
-      date: 'Monday',
-      weight: 2400,
-    },
-    {
-      date: 'Tuesday',
-      weight: 1398,
-    },
-    {
-      date: 'Wednesday',
-      weight: 9800,
-    },
-    {
-      date: 'Thursday',
-      weight: 3908,
-    },
-    {
-      date: 'Friday',
-      weight: 4800,
-    },
-    {
-      date: 'Saturday',
-      weight: 3800,
-    },
-    {
-      date: 'Sunday',
-      weight: 4300,
-    },
-  ];
-
   return (
-    <Container maxWidth="xl" className={classes.container}>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>
+    <Container maxWidth='xl' className={classes.container}>
+      <Typography component='h2' variant='h6' color='primary' gutterBottom>
         Dashboard
       </Typography>
 
       <Grid container>
         <Grid className={classes.bigNumbers} item xs={1}>
-          <WeeklyVolumeNumber />
+          <WeeklyVolumeNumber weeklyVolume={weeklyVolume} />
         </Grid>
         <Grid className={classes.bigNumbers} item xs={1}>
-          <MostCompletedExercise />
+          <MostCompletedExercise mostCompleted={mostCompleted} />
         </Grid>
         <Grid className={classes.bigNumbers} item xs={1}>
-          {/* <TotalWorkoutsPerWeek /> */}
+          <TotalWorkoutsPerWeek totalCompleted={totalCompleted} />
+
         </Grid>
       </Grid>
 
       <Grid spacing={2} container>
         <Grid item xs={8}>
           <Paper className={fixedHeightPaper}>
-
             <h3 align='left'>Weekly Analysis</h3>
-
 
             <FormControl
               style={{ margin: '0 auto 0.3rem auto' }}
               className={classes.centerInput}
             >
               <Autocomplete
-                id="exerciseChart"
+                id='exerciseChart'
                 options={allExercisesByName}
-                getOptionLabel={option => option}
+                getOptionLabel={(option) => option}
                 onChange={(event, newValue) => setSelectedExercise(newValue)}
                 style={{ width: 400 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Choose your Exercise"
-                    variant="outlined"
+                    label='Choose your Exercise'
+                    variant='outlined'
                   />
                 )}
               />
@@ -266,8 +347,9 @@ const Dashboard = () => {
               data={tableData.length !== 0 ? tableData : data}
             />
           </Paper>
-          <Grid className={classes.bigNumbers} item xs={1}>
+          <Grid className={classes.bigNumbers} item xs={2}>
             <VolByMuscleChart />
+            {/* <RadialChartCauseRyanAsked /> */}
           </Grid>
         </Grid>
         <Grid item xs={2}>
