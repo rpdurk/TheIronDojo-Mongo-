@@ -23,7 +23,7 @@ import PublicWorkout from '../common/components/PublicWorkout';
 import WeeklyVolumeNumber from '../common/components/Charts/WeeklyVolumeNumber';
 import VolByMuscleChart from '../common/components/Charts/VolByMuscleChart';
 import MostCompletedExercise from '../common/components/Charts/MostCompletedExercise';
-import TotalWorkoutsPerWeek from '../common/components/Charts/TotalWorkoutsPerWeek';
+// import TotalWorkoutsPerWeek from '../common/components/Charts/TotalWorkoutsPerWeek';
 // import { current } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles(theme => ({
@@ -231,7 +231,7 @@ const Dashboard = () => {
           <MostCompletedExercise />
         </Grid>
         <Grid className={classes.bigNumbers} item xs={1}>
-          <TotalWorkoutsPerWeek />
+          {/* <TotalWorkoutsPerWeek /> */}
         </Grid>
       </Grid>
 
